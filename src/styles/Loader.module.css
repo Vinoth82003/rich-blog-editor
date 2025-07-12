@@ -1,0 +1,26 @@
+.spinner {
+  border: 2px solid var(--card-border);
+  border: 2px solid #ffffff66;
+  border-top: 2px solid var(--spinner-color, #00d1ff);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.pageOverlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}

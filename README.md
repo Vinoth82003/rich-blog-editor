@@ -1,0 +1,96 @@
+# 📦 rich-blog-editor
+
+A feature-rich blog editor built with Next.js and React. Supports markdown, image uploads, WYSIWYG editing, syntax highlighting, image resizing, responsive design, multiple themes, plugins, custom formatting, links, and media embedding for seamless blog post creation and management.
+
+---
+
+## 📑 Table of Contents
+
+- [About](#about)
+- [Getting Started](#getting-started)
+- [Available Scripts](#available-scripts)
+- [Environment Variables](#environment-variables)
+- [Contributing](#contributing)
+- [Changelog](#changelog)
+- [License](#license)
+- [Contact](#contact)
+
+---
+
+## 🧠 About
+
+**rich-blog-editor** is a A feature-rich blog editor built with Next.js and React. Supports markdown, image uploads, WYSIWYG editing, syntax highlighting, image resizing, responsive design, multiple themes, plugins, custom formatting, links, and media embedding for seamless blog post creation and management..
+
+---
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/vinoth82003/rich-blog-editor.git
+cd rich-blog-editor
+npm install
+npm run dev
+```
+
+---
+
+## 🧪 Available Scripts
+
+From your `package.json`:
+
+```json
+{
+  "dev": "next dev --turbopack",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint"
+}
+```
+
+---
+
+## 🔐 Environment Variables
+
+Loaded from: .env.local
+
+```env
+MONGODB_URI=<hidden>
+NEXTAUTH_SECRET=<hidden>
+ADMIN_EMAIL=<hidden>
+ADMIN_PASS=<hidden>
+```
+
+---
+
+
+## 🤝 Contributing
+
+1. Fork the repo  
+2. Create a branch  
+3. Commit your changes  
+4. Push to your fork  
+5. Submit a PR
+
+---
+
+## 📜 Changelog
+
+- `v0.1.0` – Initial release
+
+---
+
+## 📄 License
+
+Licensed under the **MIT** license.
+
+---
+
+## 📬 Contact
+
+- 📧 Email: [vinothg0618@gmail.com](mailto:vinothg0618@gmail.com)  
+- 🐙 GitHub: [vinoth82003](https://github.com/vinoth82003)  
+- 💼 LinkedIn: [vinoth82003](https://linkedin.com/in/vinoth82003)  
+- 🌐 Portfolio: [vinoths.vercel.app](https://vinoths.vercel.app)
+
+---
+

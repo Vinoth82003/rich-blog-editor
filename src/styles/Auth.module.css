@@ -1,0 +1,87 @@
+.authContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  color: var(--text);
+  padding: 2rem;
+}
+
+.authCard {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 32px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--card-shadow);
+}
+
+.authCard h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+}
+
+.authContainer form label,
+.step label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  background: var(--input-bg, #111);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+
+.authContainer input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.authContainer button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--bg);
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.strength {
+  margin: -8px 0 16px 4px;
+  font-size: 0.9rem;
+  color: var(--primary);
+}
+
+.switchAuth {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.switchAuth a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.authContainer form button:disabled{
+    opacity: 0.7;
+    cursor: not-allowed;
+}

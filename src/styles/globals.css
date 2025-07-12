@@ -1,0 +1,42 @@
+:root {
+  --bg: #0d0d0d;
+  --text: #ffffff;
+  --primary: #00d1ff;
+  --card-bg: #1a1a1a;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --gradient: linear-gradient(135deg, #00d1ff, #ff00e0);
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --accent: #fffcff8c;
+  --input-bg: #111;
+  --input-border: rgba(255, 255, 255, 0.2);
+  --spinner-color: #000000;
+}
+
+[data-theme="light"] {
+  --bg: #f9f9f9;
+  --text: #111;
+  --primary: #0077ff;
+  --card-bg: #fff;
+  --card-border: rgba(0, 0, 0, 0.1);
+  --gradient: linear-gradient(135deg, #0077ff, #ff00c8);
+  --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --accent: #3700ff82;
+  --input-bg: #f0f0f0;
+  --input-border: rgba(0, 0, 0, 0.2);
+  --spinner-color: #ffffff;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
