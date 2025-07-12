@@ -3,6 +3,7 @@ import { ThemeProvider } from "../context/ThemeContext";
 import Particles from "@/components/Particles";
 import PageLoader from "@/components/PageLoader";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "My Blog App",
@@ -15,7 +16,7 @@ export default function RootLayout({ children }) {
       <body>
         <Particles />
         <PageLoader />
-
+        <Toaster position="top-center" />
         <ThemeProvider>
           <ThemeToggle />
           {children}

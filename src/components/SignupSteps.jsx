@@ -4,6 +4,7 @@ import styles from "../styles/Auth.module.css";
 import { UserPlus, Mail, Lock, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import Spinner from "./Spinner";
+import toast from "react-hot-toast";
 
 export default function SignupForm() {
   const [form, setForm] = useState({
@@ -42,12 +43,38 @@ export default function SignupForm() {
     if (!isFormValid || loading) return;
 
     setLoading(true);
-    // Simulate network delay
-    await new Promise((res) => setTimeout(res, 1500));
-    // TODO: call API here
 
-    setLoading(false);
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          profileImage: "", // optional
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Signup failed");
+      }
+
+      toast.success("Signup successful!");
+      setTimeout(() => {
+        window.location.href = "/signin";
+      }, 1000);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className={styles.authContainer}>

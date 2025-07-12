@@ -38,6 +38,11 @@
   border: 1px solid var(--card-border);
 }
 
+.authContainer form label.checkbox{
+  display: inline-flex;
+  cursor: pointer;
+}
+
 .authContainer input {
   flex: 1;
   border: none;
@@ -81,7 +86,7 @@
   font-weight: 500;
 }
 
-.authContainer form button:disabled{
-    opacity: 0.7;
-    cursor: not-allowed;
+.authContainer form button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

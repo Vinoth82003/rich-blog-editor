@@ -1,16 +1,29 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "../styles/Auth.module.css";
 import { LogIn, Mail, Lock } from "lucide-react";
 import Spinner from "./Spinner";
+import toast from "react-hot-toast";
 
 export default function SignInForm() {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    remember: false,
+  });
+
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, type, value, checked } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const isFormValid = form.email.trim() && form.password.trim();
@@ -21,10 +34,26 @@ export default function SignInForm() {
 
     setLoading(true);
 
-    // TODO: call login API here
-    await new Promise((res) => setTimeout(res, 1200));
+    try {
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    setLoading(false);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      toast.success("Signed in successfully!");
+      router.push("/dashboard"); // 👈 redirect to dashboard or home
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,6 +85,16 @@ export default function SignInForm() {
               required
             />
           </label>
+          <label className={styles.checkbox}>
+            <input
+              type="checkbox"
+              name="remember"
+              checked={form.remember}
+              onChange={handleChange}
+            />
+            Remember me
+          </label>
+
           <button type="submit" disabled={!isFormValid || loading}>
             {loading ? (
               <>
@@ -65,6 +104,7 @@ export default function SignInForm() {
               "Sign In"
             )}
           </button>
+
           <p className={styles.switchAuth}>
             Don’t have an account? <Link href="/signup">Sign Up</Link>
           </p>

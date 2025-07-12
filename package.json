@@ -24,8 +24,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie": "^1.0.2",
     "framer-motion": "^12.23.3",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.525.0",
+    "mongoose": "^8.16.3",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
