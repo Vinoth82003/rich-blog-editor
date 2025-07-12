@@ -52,3 +52,60 @@
   flex: 1;
   padding: 30px;
 }
+
+/* Settings Page Styles */
+.settingsContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.settingsContainer h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.settingsContainer label {
+  display: block;
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.settingsContainer input {
+  width: 100%;
+  margin-top: 6px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-mid);
+  background: var(--bg);
+  color: var(--text);
+  transition: border 0.2s ease;
+}
+
+.settingsContainer input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.settingsContainer button {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.settingsContainer button:hover {
+  background: var(--accent-hover);
+}

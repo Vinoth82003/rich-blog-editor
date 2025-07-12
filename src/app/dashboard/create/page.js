@@ -1,10 +1,10 @@
 import DashboardLayout from "@/components/DashboardLayout";
-import BlogList from "@/components/BlogList";
+import BlogForm from "@/components/BlogForm";
 
-export default function Dashboard() {
+export default function Create() {
   return (
     <DashboardLayout>
-      <BlogList />
+      <BlogForm />
     </DashboardLayout>
   );
 }
