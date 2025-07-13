@@ -16,6 +16,7 @@
   --secondary-hover: #8a8a8a;
   --accent: #ffffffa3;
   --danger: #ff4d4d;
+  --input-bg: #1a1a1f1e;
 }
 [data-theme="light"] {
   --text: #111;
@@ -32,6 +33,7 @@
   --accent: #278acdd1;
   --primary: #0077ff;
   --primary-hover: #005bb5;
+  --input-bg: #1a1a1f1e;
 }
 
 body {
@@ -54,4 +56,13 @@ body {
   outline: none;
   min-height: 200px;
   padding: 10px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.blog-content h1, .blog-content h2, .blog-content h3 {
+  margin-top: 2rem;
+  scroll-margin-top: 100px; /* avoid being hidden behind sticky header */
 }

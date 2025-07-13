@@ -1,5 +1,5 @@
 import styles from "../styles/BlogCard.module.css";
-import { Clock, Edit2, Trash2 } from "lucide-react";
+import { Clock, Edit2, EyeIcon, Trash2 } from "lucide-react";
 import Link from "next/link";
 import Spinner from "./Spinner";
 
@@ -18,6 +18,14 @@ export default function BlogCard({ blog, onDelete }) {
           <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
         </div>
         <div className={styles.actions}>
+          <Link
+            href={`http://localhost:3000/blog/${blog.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.viewLink}
+          >
+            {<EyeIcon size={16} />}
+          </Link>
           <Link href={`/dashboard/${blog._id}/edit`}>
             {<Edit2 size={16} />}
           </Link>
