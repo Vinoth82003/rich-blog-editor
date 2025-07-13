@@ -52,7 +52,18 @@ export default function BlogsPage() {
       </h1>
 
       {loading ? (
-        <Spinner />
+        <div
+          style={{
+            marginTop: "3rem",
+            fontSize: "1.2rem",
+            display: "flex",
+            alignItems: "center",
+            gap: ".5rem",
+          }}
+        >
+          <Spinner />
+          <p>Loading blogs...</p>
+        </div>
       ) : blogs.length === 0 ? (
         <p style={{ textAlign: "center", marginTop: "2rem" }}>
           No blogs found.
