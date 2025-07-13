@@ -46,7 +46,6 @@ export default function BlogList({ filter }) {
     });
 
     if (result.isConfirmed) {
-      setLoading(true);
       const toastId = toast.loading("Deleting blog...");
       const res = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
       if (res.ok) {
@@ -55,7 +54,6 @@ export default function BlogList({ filter }) {
       } else {
         toast.error("Failed to delete");
       }
-      setLoading(false);
       toast.dismiss(toastId);
     }
   };
