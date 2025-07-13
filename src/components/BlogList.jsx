@@ -46,6 +46,8 @@ export default function BlogList({ filter }) {
     });
 
     if (result.isConfirmed) {
+      setLoading(true);
+      const toastId = toast.loading("Deleting blog...");
       const res = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
       if (res.ok) {
         setBlogs((b) => b.filter((x) => x._id !== id));
@@ -53,10 +55,12 @@ export default function BlogList({ filter }) {
       } else {
         toast.error("Failed to delete");
       }
+      setLoading(false);
+      toast.dismiss(toastId);
     }
   };
 
-  if (blogs === null) return <Spinner />;
+  if (blogs === null) return <Spinner size={20} />;
   if (!blogs.length) return <p>No blogs found.</p>;
 
   return blogs.map((b) => (

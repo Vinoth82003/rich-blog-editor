@@ -16,7 +16,7 @@
   margin-bottom: 20px;
 }
 
-.sidebar nav {
+/* .sidebar nav {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -34,9 +34,9 @@
 
 .sidebar nav a:hover {
   background: var(--hover);
-}
+} */
 
-.logout {
+/* .logout {
   margin-top: auto;
   background: transparent;
   border: none;
@@ -46,7 +46,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px;
-}
+} */
 
 .content {
   flex: 1;
@@ -108,4 +108,77 @@
 
 .settingsContainer button:hover {
   background: var(--accent-hover);
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 6px;
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.sidebar nav a:hover {
+  background: var(--hover-bg);
+  color: var(--text);
+}
+
+.sidebar nav a.active {
+  background: var(--primary-hover);
+  color: white !important;
+}
+
+.sidebar .logout{
+  margin: 5px;
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+}
+
+.menuButton{
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -240px;
+    top: 0;
+    height: 100%;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .menuButton {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .content {
+    background: #000;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
 }

@@ -64,7 +64,7 @@
   font-size: 1rem;
   font-weight: 500;
   color: white;
-  background: var(--accent);
+  background: var(--primary-hover);
   border: none;
   border-radius: 8px;
   cursor: pointer;

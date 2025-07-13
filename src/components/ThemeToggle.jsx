@@ -9,7 +9,7 @@ export default function ThemeToggle() {
     <button
       style={{
         position: "fixed",
-        top: 20,
+        bottom: 20,
         right: 20,
         zIndex: 1000,
         background: "var(--card-bg)",

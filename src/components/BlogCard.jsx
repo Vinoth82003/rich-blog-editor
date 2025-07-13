@@ -1,6 +1,7 @@
 import styles from "../styles/BlogCard.module.css";
 import { Clock, Edit2, Trash2 } from "lucide-react";
 import Link from "next/link";
+import Spinner from "./Spinner";
 
 export default function BlogCard({ blog, onDelete }) {
   return (
@@ -18,10 +19,10 @@ export default function BlogCard({ blog, onDelete }) {
         </div>
         <div className={styles.actions}>
           <Link href={`/dashboard/${blog._id}/edit`}>
-            <Edit2 size={16} />
+            {<Edit2 size={16} />}
           </Link>
           <button onClick={() => onDelete(blog._id)}>
-            <Trash2 size={16} />
+            {<Trash2 size={16} />}
           </button>
         </div>
       </div>

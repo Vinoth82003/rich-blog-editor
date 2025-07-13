@@ -55,7 +55,7 @@
 }
 
 .status {
-  background: var(--accent);
+  background: var(--primary-hover);
   color: white;
   padding: 2px 10px;
   border-radius: 20px;
@@ -91,11 +91,44 @@
 
 .actions a:hover,
 .actions button:hover {
-  background: var(--accent);
+  background: var(--primary-hover);
   color: white;
-  border-color: var(--accent);
+  border-color: var(--primary-hover);
 }
 
 .actions button {
   border: none;
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    width: 300px;
+  }
+
+  .banner {
+    width: 100%;
+    height: 150px;
+  }
+
+  .meta {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .details p{
+    max-height: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+
 }

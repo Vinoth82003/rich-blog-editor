@@ -6,6 +6,7 @@ import styles from "../styles/Auth.module.css";
 import { LogIn, Mail, Lock } from "lucide-react";
 import Spinner from "./Spinner";
 import toast from "react-hot-toast";
+import { set } from "mongoose";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -48,7 +49,8 @@ export default function SignInForm() {
       }
 
       toast.success("Signed in successfully!");
-      router.push("/dashboard"); // 👈 redirect to dashboard or home
+      setForm({ email: "", password: "", remember: false });
+      router.push("/dashboard");
     } catch (err) {
       toast.error(err.message);
     } finally {

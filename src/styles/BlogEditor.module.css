@@ -1,0 +1,74 @@
+.editorWrapper {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(var(--primary-clr), 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+.editorArea {
+  min-height: 300px;
+  padding: 1rem;
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
+}
+
+.editorArea img {
+  max-width: 100%;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+.editorArea pre {
+  background: #0d0d0d;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: monospace;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.backBtn,
+.submitBtn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  background: rgba(var(--primary-clr), 0.1);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.backBtn:hover,
+.submitBtn:hover {
+  background: rgba(var(--primary-clr), 0.2);
+}
+
+.editorWrapper ol, .editorWrapper ul{
+  margin: 5px 20px;
+}
+
+.editorWrapper hr{
+  margin: 10px 0;
+}
+
+.editorWrapper pre{
+  background: var(--card-bg);
+  padding: 10px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: monospace !important ;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-light);
+  
+}
