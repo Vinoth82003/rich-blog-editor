@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Blog from "@/models/Blog";
+import "@/models/User"; // 👈 This is the missing import
 
 export async function GET() {
   await connectDB();

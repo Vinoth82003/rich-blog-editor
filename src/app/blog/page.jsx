@@ -4,6 +4,7 @@ import styles from "@/styles/BlogListPage.module.css";
 import Link from "next/link";
 import { User, Calendar, Clock, BookOpen, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import Spinner from "@/components/Spinner";
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
@@ -51,10 +52,7 @@ export default function BlogsPage() {
       </h1>
 
       {loading ? (
-        <div style={{ textAlign: "center", marginTop: "3rem" }}>
-          <LoaderCircle className="spin" size={32} />
-          <p>Loading blogs...</p>
-        </div>
+        <Spinner />
       ) : blogs.length === 0 ? (
         <p style={{ textAlign: "center", marginTop: "2rem" }}>
           No blogs found.
