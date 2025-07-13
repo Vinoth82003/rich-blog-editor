@@ -66,7 +66,11 @@ export default function Toolbar({ editor, fileInputRef }) {
       <button onClick={() => editor.chain().focus().toggleBlockquote().run()}>
         <Quote size={16} />
       </button>
-      <button onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
+      <button
+        onClick={() =>
+          editor.chain().focus().toggleNode("prismCodeBlock", "paragraph").run()
+        }
+      >
         <Code2 size={16} />
       </button>
 

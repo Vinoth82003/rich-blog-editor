@@ -1,20 +1,21 @@
 import { notFound } from "next/navigation";
+import connectDB from "@/lib/db";
+import Blog from "@/models/Blog";
+import styles from "@/styles/Blog.module.css";
+import { ListCheckIcon } from "lucide-react";
 
-// Generate dynamic metadata (optional SEO support)
+// Metadata
 export async function generateMetadata({ params }) {
   return {
     title: params.slug.replace(/-/g, " ") + " | Blog",
   };
 }
 
-// Fetch blog from server
+// Fetch blog from MongoDB
 async function getBlog(slug) {
-  const res = await fetch(`/api/blogs/slug/${slug}`, {
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!res.ok) return null;
-  return res.json();
+  await connectDB();
+  const blog = await Blog.findOne({ slug, status: "published" }).lean();
+  return blog;
 }
 
 export default async function BlogPage({ params }) {
@@ -25,51 +26,30 @@ export default async function BlogPage({ params }) {
   const toc = generateTOC(blogWithIds);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        padding: "2rem",
-        gap: "2rem",
-      }}
-    >
-      {/* Sticky Table of Contents */}
-      <aside
-        style={{
-          position: "sticky",
-          top: "80px",
-          alignSelf: "flex-start",
-          width: "250px",
-          maxHeight: "80vh",
-          overflowY: "auto",
-          borderRight: "1px solid #eee",
-          paddingRight: "1rem",
-        }}
-      >
-        <h3 style={{ marginBottom: "1rem" }}>🧭 Table of Contents</h3>
+    <div className={styles.blogPage}>
+      {/* TOC */}
+      <aside className={styles.toc}>
+        <h3 style={{ marginBottom: "1rem", display: "flex", alignItems: "center",gap: "0.5rem" }}>
+          <ListCheckIcon /> Table of Contents
+        </h3>
         <nav dangerouslySetInnerHTML={{ __html: toc }} />
       </aside>
 
       {/* Blog Content */}
-      <main style={{ flex: 1, maxWidth: "800px", margin: "0 auto" }}>
-        <img
-          src={blog.bannerUrl}
-          alt="Banner"
-          style={{
-            width: "100%",
-            height: "auto",
-            objectFit: "cover",
-            borderRadius: "10px",
-            marginBottom: "1.5rem",
-          }}
-        />
-        <h1 style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>
-          {blog.title}
-        </h1>
-        <p style={{ color: "#666", marginBottom: "2rem" }}>
-          {blog.description}
-        </p>
-
+      <main className={styles.blogContent}>
+        {blog.bannerUrl && (
+          <img
+            src={blog.bannerUrl}
+            alt="Banner"
+            style={{
+              width: "100%",
+              height: "auto",
+              objectFit: "cover",
+              borderRadius: "10px",
+              marginBottom: "1.5rem",
+            }}
+          />
+        )}
         <div
           dangerouslySetInnerHTML={{ __html: blogWithIds }}
           className="blog-content"
@@ -80,7 +60,7 @@ export default async function BlogPage({ params }) {
   );
 }
 
-// ✅ Auto add ID to headings
+// Auto add ID to headings
 function addHeadingIds(html) {
   return html.replace(/<h([1-4])>(.*?)<\/h\1>/g, (_, level, text) => {
     const id = text
@@ -91,7 +71,7 @@ function addHeadingIds(html) {
   });
 }
 
-// ✅ Generate TOC from content
+// Generate TOC
 function generateTOC(html) {
   const headings = html.match(/<h[1-4].*?<\/h[1-4]>/g);
   if (!headings) return "<p>No headings found</p>";

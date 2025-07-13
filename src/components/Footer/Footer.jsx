@@ -30,6 +30,9 @@ export default function Footer() {
           <a href="/signin" className={styles.footerLink}>
             sign in
           </a>
+          <a href="/blog" className={styles.footerLink}>
+            blogs
+          </a>
         </nav>
 
         <div className={styles.footerSocial}>

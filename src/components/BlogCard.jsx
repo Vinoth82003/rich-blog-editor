@@ -18,14 +18,16 @@ export default function BlogCard({ blog, onDelete }) {
           <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
         </div>
         <div className={styles.actions}>
-          <Link
-            href={`http://localhost:3000/blog/${blog.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.viewLink}
-          >
-            {<EyeIcon size={16} />}
-          </Link>
+          {blog.status == "published" && (
+            <Link
+              href={`/blog/${blog.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.viewLink}
+            >
+              {<EyeIcon size={16} />}
+            </Link>
+          )}
           <Link href={`/dashboard/${blog._id}/edit`}>
             {<Edit2 size={16} />}
           </Link>
