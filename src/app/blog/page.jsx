@@ -5,6 +5,7 @@ import Link from "next/link";
 import { User, Calendar, Clock, BookOpen, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
+import Footer from "@/components/Footer/Footer";
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
@@ -105,6 +106,9 @@ export default function BlogsPage() {
           ))}
         </div>
       )}
+
+      {/* Footer */}
+      <Footer/>
     </div>
   );
 }

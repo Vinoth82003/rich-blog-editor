@@ -16,7 +16,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <h2 className={styles.footerLogo}>
-          Data Manager
+          Blog Editor
           <FolderOpenDot size={24} style={{ marginLeft: "10px" }} />
         </h2>
 
@@ -70,7 +70,7 @@ export default function Footer() {
         </div>
 
         <p className={styles.footerNote}>
-          &copy; {year} Data Manager — Developed by <strong>Vinoth S</strong>
+          &copy; {year} Blog Editor — Developed by <strong>Vinoth S</strong>
         </p>
       </div>
     </footer>
