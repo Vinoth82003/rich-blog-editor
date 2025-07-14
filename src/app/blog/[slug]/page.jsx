@@ -3,6 +3,7 @@ import connectDB from "@/lib/db";
 import Blog from "@/models/Blog";
 import styles from "@/styles/Blog.module.css";
 import { ListCheckIcon } from "lucide-react";
+import BlogContentRenderer from "@/components/BlogContentRenderer";
 
 // Metadata
 export async function generateMetadata({ params }) {
@@ -29,10 +30,17 @@ export default async function BlogPage({ params }) {
     <div className={styles.blogPage}>
       {/* TOC */}
       <aside className={styles.toc}>
-        <h3 style={{ marginBottom: "1rem", display: "flex", alignItems: "center",gap: "0.5rem" }}>
+        <h3
+          style={{
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+        >
           <ListCheckIcon /> Table of Contents
         </h3>
-        <nav dangerouslySetInnerHTML={{ __html: toc }} />
+        <nav dangerouslySetInnerHTML={{ __html: toc.normalize("NFC") }} />
       </aside>
 
       {/* Blog Content */}
@@ -50,11 +58,7 @@ export default async function BlogPage({ params }) {
             }}
           />
         )}
-        <div
-          dangerouslySetInnerHTML={{ __html: blogWithIds }}
-          className="blog-content"
-          style={{ lineHeight: 1.7, fontSize: "1.05rem" }}
-        />
+        <BlogContentRenderer html={blogWithIds} />
       </main>
     </div>
   );

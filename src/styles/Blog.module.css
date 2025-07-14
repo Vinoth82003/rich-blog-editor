@@ -69,14 +69,20 @@
   padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
-  margin-bottom: 2rem;
   font-size: 0.9rem;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
 }
 
 .blogContent hr{
     border: none;
     height: 1px;
     background: #c8c8c86f;
+}
+
+.blogContent ul,.blogContent ol{
+  margin-left: 1rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -96,4 +102,20 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
     margin-bottom: 2rem;
   }
+}
+
+
+@media screen and (max-width: 600px) {
+  .blogContent pre{
+    max-width: 400px;
+  }
+  
+}
+
+
+@media screen and (max-width: 480px) {
+  .blogContent pre{
+    max-width: 280px;
+  }
+  
 }
