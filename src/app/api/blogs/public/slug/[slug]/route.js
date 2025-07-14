@@ -39,7 +39,7 @@ export async function GET(request, { params }) {
 
     const blog = await Blog.findOne({
       slug: params.slug,
-      status: "published",
+      author: user._id,
     }).populate("author", "name -_id");
 
     if (!blog) {
