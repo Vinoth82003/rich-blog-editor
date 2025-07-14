@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import User from "@/models/User";
 import { verifyToken } from "@/lib/jwt";
+import { decryptApiKey } from "@/lib/apiKeyUtil";
 
 // Middleware for protected route
 async function getUserFromRequest(request) {
@@ -24,6 +25,7 @@ export async function GET(request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const user = await User.findById(userId).select("-password");
+  user.apiKey = await decryptApiKey(user.apiKey);
   return NextResponse.json(user);
 }
 
