@@ -1,0 +1,58 @@
+.headerWrapper {
+  margin-bottom: 2rem;
+  width: 100%;
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.welcome {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.wave {
+  animation: wave 1.5s infinite;
+  display: inline-block;
+  transform-origin: 70% 70%;
+}
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-8deg); }
+  45% { transform: rotate(14deg); }
+  60% { transform: rotate(-4deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.datetime {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  margin-left: 1.5rem;
+}
+
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  flex: 1 1 150px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border: 1px solid var(--border);
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  color: var(--primary);
+}

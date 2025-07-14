@@ -2,13 +2,13 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Blog from "@/models/Blog";
-import "@/models/User"; // 👈 This is the missing import
+import "@/models/User"; 
 
 export async function GET() {
   await connectDB();
 
   const blogs = await Blog.find({ status: "published" })
-    .populate("author", "name") // include author name
+    .populate("author", "name") 
     .sort({ createdAt: -1 });
 
   return NextResponse.json(blogs);

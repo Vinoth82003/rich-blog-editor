@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Blog from "@/models/Blog";
 import { getUserFromToken } from "@/lib/authMiddleware";
+import "@/models/User"; 
 
 export async function POST(req) {
   const { userId } = getUserFromToken();
@@ -27,12 +28,14 @@ export async function GET(req) {
   const { userId } = await getUserFromToken(req);
 
   const { searchParams } = new URL(req.url);
-  const status = searchParams.get("status"); // 'draft' | 'published' | null
+  const status = searchParams.get("status"); 
 
   const filter = { author: userId };
   if (status) filter.status = status;
 
-  const blogs = await Blog.find(filter).sort({ createdAt: -1 });
+  const blogs = await Blog.find(filter)
+    .populate("author", "name")
+    .sort({ createdAt: -1 });
 
   return NextResponse.json(blogs);
 }

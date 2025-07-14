@@ -1,0 +1,53 @@
+.tableWrapper {
+  margin-top: 2rem;
+}
+
+.heading {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.table th {
+  background-color: var(--surface);
+}
+
+.badge {
+  padding: 0.1rem 0.3rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: .7rem;
+  text-transform: capitalize;
+}
+
+.published {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.draft {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-light);
+}
