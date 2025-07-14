@@ -95,19 +95,23 @@
 }
 
 .settingsContainer button {
-  margin-top: 1.5rem;
+  margin: 1.5rem .5rem;
   padding: 0.75rem 1rem;
   font-size: 1rem;
   border-radius: 8px;
-  background: var(--accent);
-  color: #fff;
+  background: var(--primary);
+  color: #000;
   border: none;
   cursor: pointer;
   transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .settingsContainer button:hover {
-  background: var(--accent-hover);
+  background: var(--primary-hover);
+  color: #fff;
 }
 
 .sidebar nav a {
@@ -147,6 +151,59 @@
 .menuButton{
   display: none;
 }
+
+.settingsHeading {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.apiKeyField {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.apiKeyField input {
+  flex: 1;
+}
+
+.apiKeyInfo {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.apiKeyWarning {
+  font-size: 0.8rem;
+  color: var(--danger, #d9534f);
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.iconBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.buttonGroup button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 
 @media screen and (max-width: 768px) {
   .sidebar {

@@ -12,6 +12,10 @@ const UserSchema = new mongoose.Schema(
     },
     password: { type: String, required: true },
     profileImage: { type: String, default: "" },
+    apiKey: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );
