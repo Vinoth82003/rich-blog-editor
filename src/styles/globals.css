@@ -62,11 +62,12 @@ html {
   scroll-behavior: smooth;
 }
 
-.blog-content h1, .blog-content h2, .blog-content h3 {
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
   margin-top: 2rem;
   scroll-margin-top: 100px; /* avoid being hidden behind sticky header */
 }
-
 
 blockquote {
   margin: 1.5rem 0;
@@ -77,6 +78,7 @@ blockquote {
   font-size: 1rem;
   color: var(--accent);
   border-radius: 6px;
+  position: relative;
 }
 
 blockquote p {
@@ -92,4 +94,3 @@ blockquote::before {
   top: 0.5rem;
   left: 1rem;
 }
-
