@@ -2,6 +2,8 @@
 
 import styles from "@/styles/BlogTable.module.css";
 import Spinner from "./Spinner";
+import Link from "next/link";
+import { Eye, PenIcon } from "lucide-react";
 
 export default function BlogTable({ blogs }) {
   //   const [blogs, setBlogs] = useState([]);
@@ -23,8 +25,7 @@ export default function BlogTable({ blogs }) {
           <tr>
             <th>Title</th>
             <th>Status</th>
-            <th>Created</th>
-            <th>Updated</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -42,8 +43,16 @@ export default function BlogTable({ blogs }) {
                   {blog.status}
                 </span>
               </td>
-              <td>{new Date(blog.createdAt).toLocaleString()}</td>
-              <td>{new Date(blog.updatedAt).toLocaleString()}</td>
+              <td>
+                <div className={styles.buttonGroup}>
+                  <Link href={`/${blog._id}/edit`}>
+                    <PenIcon size={16} />
+                  </Link>
+                  <Link href={`/blog/${blog.slug}`} target="_blank">
+                    <Eye size={16} />
+                  </Link>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
