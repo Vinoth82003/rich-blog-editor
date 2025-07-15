@@ -45,7 +45,7 @@ export default function BlogTable({ blogs }) {
               </td>
               <td>
                 <div className={styles.buttonGroup}>
-                  <Link href={`/${blog._id}/edit`}>
+                  <Link href={`/dashboard/${blog._id}/edit`}>
                     <PenIcon size={16} />
                   </Link>
                   <Link href={`/blog/${blog.slug}`} target="_blank">
