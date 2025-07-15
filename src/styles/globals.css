@@ -85,12 +85,3 @@ blockquote p {
   margin: 0;
   line-height: 1.6;
 }
-
-blockquote::before {
-  content: "❝";
-  font-size: 2rem;
-  color: var(--primary);
-  position: absolute;
-  top: 0.5rem;
-  left: 1rem;
-}
