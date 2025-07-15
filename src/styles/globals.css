@@ -66,3 +66,30 @@ html {
   margin-top: 2rem;
   scroll-margin-top: 100px; /* avoid being hidden behind sticky header */
 }
+
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #0070f3;
+  background-color: rgba(0, 112, 243, 0.05);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--accent);
+  border-radius: 6px;
+}
+
+blockquote p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+blockquote::before {
+  content: "❝";
+  font-size: 2rem;
+  color: var(--primary);
+  position: absolute;
+  top: 0.5rem;
+  left: 1rem;
+}
+
