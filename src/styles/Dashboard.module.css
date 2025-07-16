@@ -16,38 +16,6 @@
   margin-bottom: 20px;
 }
 
-/* .sidebar nav {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sidebar nav a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text);
-  text-decoration: none;
-  padding: 8px;
-  border-radius: 6px;
-}
-
-.sidebar nav a:hover {
-  background: var(--hover);
-} */
-
-/* .logout {
-  margin-top: auto;
-  background: transparent;
-  border: none;
-  color: var(--danger);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-} */
-
 .content {
   flex: 1;
   padding: 30px;
@@ -95,7 +63,7 @@
 }
 
 .settingsContainer button {
-  margin: 1.5rem .5rem;
+  margin: 1.5rem 0.5rem;
   padding: 0.75rem 1rem;
   font-size: 1rem;
   border-radius: 8px;
@@ -136,7 +104,7 @@
   color: white !important;
 }
 
-.sidebar .logout{
+.sidebar .logout {
   margin: 5px;
   background: transparent;
   border: none;
@@ -148,7 +116,7 @@
   padding: 8px;
 }
 
-.menuButton{
+.menuButton {
   display: none;
 }
 
@@ -183,14 +151,19 @@
   display: block;
 }
 
-.iconBtn {
+.apiKeyField .iconBtn {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: var(--text);
   display: flex;
   align-items: center;
-  padding: 0;
+  padding: 0.5rem .7rem;
+  border: 1px solid var(--card-border);
+  color: var(--clr);
+}
+
+.apiKeyField .iconBtn:hover {
+  inset: none;
 }
 
 .buttonGroup {
@@ -203,8 +176,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  color: var(--clr);
 }
-
 
 @media screen and (max-width: 768px) {
   .sidebar {
@@ -237,5 +210,4 @@
     flex-direction: column;
     align-items: center;
   }
-  
 }

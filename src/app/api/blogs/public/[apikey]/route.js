@@ -5,8 +5,8 @@ import connectDB from "@/lib/db";
 import User from "@/models/User";
 import Blog from "@/models/Blog";
 import { decryptApiKey } from "@/lib/apiKeyUtil";
+import { rateLimiter } from "@/lib/rateLimiter";
 
-// CORS headers
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -19,13 +19,21 @@ export async function OPTIONS() {
 
 export async function GET(req, { params }) {
   const { apikey } = params;
+
   if (!apikey) {
     return NextResponse.json(
       { error: "No API key provided" },
-      {
-        status: 400,
-        headers: corsHeaders,
-      }
+      { status: 400, headers: corsHeaders }
+    );
+  }
+
+  const clientIP = req.headers.get("x-forwarded-for") || "global";
+  try {
+    await rateLimiter.consume(clientIP);
+  } catch {
+    return NextResponse.json(
+      { error: "Too Many Requests" },
+      { status: 429, headers: corsHeaders }
     );
   }
 
@@ -34,9 +42,9 @@ export async function GET(req, { params }) {
 
   const matched = users.find((u) => {
     try {
-      const raw = decryptApiKey(u.apiKey);
-      return raw === apikey;
-    } catch (e) {
+      const rawKey = decryptApiKey(u.apiKey);
+      return rawKey === apikey;
+    } catch {
       return false;
     }
   });
@@ -44,14 +52,11 @@ export async function GET(req, { params }) {
   if (!matched) {
     return NextResponse.json(
       { error: "Invalid API Key" },
-      {
-        status: 401,
-        headers: corsHeaders,
-      }
+      { status: 401, headers: corsHeaders }
     );
   }
 
-  const blogs = await Blog.find({ author: matched._id, status: "published" })
+  const blogs = await Blog.find({ author: matched._id })
     .select("title description content createdAt updatedAt slug readTime")
     .sort({ createdAt: -1 });
 
