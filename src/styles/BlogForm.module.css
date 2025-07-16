@@ -57,7 +57,7 @@
 }
 
 .formContainer button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 1rem;
@@ -80,4 +80,33 @@
   background: var(--border-mid);
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+.errorInput {
+  border: 1px solid #ff4d4f;
+  animation: shake 0.3s ease;
+}
+
+.errorText {
+  color: #ff4d4f;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
