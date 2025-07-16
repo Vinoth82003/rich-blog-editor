@@ -1,11 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import styles from "../styles/Dashboard.module.css";
 import {
   LayoutDashboard,
-  FileText,
-  CheckCircle2,
   Settings,
   LogOut,
   FilePenIcon,
@@ -15,15 +12,11 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { handleLogout } from "@/lib/auth/client";
 
 export default function DashboardLayout({ children }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/signin");
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

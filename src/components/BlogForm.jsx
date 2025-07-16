@@ -6,6 +6,7 @@ import BlogEditor from "./BlogEditor";
 import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
+import { fetchWithAuth } from "@/lib/auth/client";
 
 export default function BlogForm({ blogId }) {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function BlogForm({ blogId }) {
 
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`/api/blogs/${blogId}`);
+        const res = await fetchWithAuth(`/api/blogs/${blogId}`);
         if (!res.ok) throw new Error("Failed to fetch blog");
         const data = await res.json();
 
@@ -54,7 +55,7 @@ export default function BlogForm({ blogId }) {
     const method = blogId ? "PUT" : "POST";
     const url = blogId ? `/api/blogs/${blogId}` : "/api/blogs";
 
-    const res = await fetch(url, {
+    const res = await fetchWithAuth(url, {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),

@@ -15,6 +15,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import Swal from "sweetalert2";
+import { fetchWithAuth } from "@/lib/auth/client";
 
 export default function Settings() {
   const [user, setUser] = useState(null);
@@ -23,13 +24,13 @@ export default function Settings() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    fetchWithAuth("/api/auth/me")
       .then((r) => r.json())
       .then(setUser);
   }, []);
 
   const save = async () => {
-    const res = await fetch("/api/auth/me", {
+    const res = await fetchWithAuth("/api/auth/me", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
@@ -41,7 +42,7 @@ export default function Settings() {
     setLoading(true);
     const toastId = toast.loading("Generating API Key...");
     try {
-      const res = await fetch("/api/auth/apikey", { method: "POST" });
+      const res = await fetchWithAuth("/api/auth/apikey", { method: "POST" });
       const data = await res.json();
       if (data.apiKey) {
         toast.success("API Key generated! Copy and store it securely.");
@@ -84,7 +85,7 @@ export default function Settings() {
     setLoading(true);
     const toastId = toast.loading("Deleting API Key...");
     try {
-      const res = await fetch("/api/auth/apikey", { method: "DELETE" });
+      const res = await fetchWithAuth("/api/auth/apikey", { method: "DELETE" });
       if (res.ok) {
         toast.success("API Key deleted");
         setUser((prev) => ({ ...prev, apiKey: "" }));

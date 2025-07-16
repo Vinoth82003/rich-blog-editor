@@ -4,6 +4,7 @@ import BlogCard from "./BlogCard";
 import Spinner from "./Spinner";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { fetchWithAuth } from "@/lib/auth/client";
 
 export default function BlogList({ filter }) {
   const [blogs, setBlogs] = useState(null);
@@ -11,7 +12,7 @@ export default function BlogList({ filter }) {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch(
+        const res = await fetchWithAuth(
           `/api/blogs${filter ? `?status=${filter}` : ""}`
         );
 
@@ -47,7 +48,7 @@ export default function BlogList({ filter }) {
 
     if (result.isConfirmed) {
       const toastId = toast.loading("Deleting blog...");
-      const res = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
+      const res = await fetchWithAuth(`/api/blogs/${id}`, { method: "DELETE" });
       if (res.ok) {
         setBlogs((b) => b.filter((x) => x._id !== id));
         toast.success("Blog deleted!");
@@ -60,7 +61,7 @@ export default function BlogList({ filter }) {
 
   const toggleStatus = async (id) => {
     const toastId = toast.loading("Changing blog Status...");
-    const res = await fetch(`/api/blogs/${id}`, {
+    const res = await fetchWithAuth(`/api/blogs/${id}`, {
       method: "PATCH",
     });
 

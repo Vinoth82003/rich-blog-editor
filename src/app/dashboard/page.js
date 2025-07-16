@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import { fetchWithAuth } from "@/lib/auth/client";
 
 export default function Dashboard() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
   const [username, setUsername] = useState("User");
   const [now, setNow] = useState(new Date());
   const [stats, setStats] = useState({
@@ -32,10 +34,18 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("/api/blogs/"); // adjust if needed
-      const data = await res.json();
-      setUsername(data[0].author.name || "User");
-      setBlogs(data);
+      try {
+        setLoading(true);
+        const res = await fetchWithAuth("/api/blogs/");
+        const data = await res.json();
+        setUsername(data[0]?.author?.name || "User");
+        setBlogs(data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        toast.error("Failed to fetch blogs. You may have been logged out.");
+      } finally {
+        setLoading(false);
+      }
     }
     fetchData();
   }, []);
@@ -55,7 +65,7 @@ export default function Dashboard() {
 
     if (result.isConfirmed) {
       const toastId = toast.loading("Deleting blog...");
-      const res = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
+      const res = await fetchWithAuth(`/api/blogs/${id}`, { method: "DELETE" });
       if (res.ok) {
         setBlogs((b) => b.filter((x) => x._id !== id));
         toast.success("Blog deleted!");
@@ -67,9 +77,9 @@ export default function Dashboard() {
   };
 
   const toggleStatus = async (id) => {
-    setLoading(true)
+    setUpdateLoading(true);
     const toastId = toast.loading("Changing blog Status...");
-    const res = await fetch(`/api/blogs/${id}`, {
+    const res = await fetchWithAuth(`/api/blogs/${id}`, {
       method: "PATCH",
     });
 
@@ -77,19 +87,19 @@ export default function Dashboard() {
     setBlogs(data.blogs);
     toast.success(data.message);
     toast.dismiss(toastId);
-    setLoading(false)
+    setUpdateLoading(false);
   };
 
   return (
     <DashboardLayout>
-      {blogs ? (
+      {!loading || !blogs ? (
         <>
           <DashboardHeader username={username} now={now} stats={stats} />
           <BlogTable
             blogs={blogs}
             onDelete={deleteBlog}
             onStatusChange={toggleStatus}
-            loading={loading}
+            loading={updateLoading}
           />
         </>
       ) : (

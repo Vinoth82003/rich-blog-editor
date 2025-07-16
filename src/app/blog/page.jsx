@@ -79,14 +79,16 @@ export default function BlogsPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className={styles.imageWrapper}>
-                <img
-                  src={blog.bannerUrl}
-                  alt={blog.title}
-                  className={styles.banner}
-                  loading="lazy"
-                />
-              </div>
+              {blog.bannerUrl && (
+                <div className={styles.imageWrapper}>
+                  <img
+                    src={blog.bannerUrl}
+                    alt={blog.title}
+                    className={styles.banner}
+                    loading="lazy"
+                  />
+                </div>
+              )}
               <div className={styles.content}>
                 <h2 className={styles.blogTitle}>{blog.title}</h2>
                 <p className={styles.description}>{blog.description}</p>
@@ -108,7 +110,7 @@ export default function BlogsPage() {
       )}
 
       {/* Footer */}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

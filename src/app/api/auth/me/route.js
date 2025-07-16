@@ -4,7 +4,6 @@ import User from "@/models/User";
 import { verifyToken } from "@/lib/jwt";
 import { decryptApiKey } from "@/lib/apiKeyUtil";
 
-// Middleware for protected route
 async function getUserFromRequest(request) {
   const token = request.cookies.get("token")?.value;
   if (!token) return null;
@@ -17,7 +16,6 @@ async function getUserFromRequest(request) {
   }
 }
 
-// GET /api/auth/me → Get current user
 export async function GET(request) {
   await connectDB();
   const userId = await getUserFromRequest(request);
@@ -29,7 +27,6 @@ export async function GET(request) {
   return NextResponse.json(user);
 }
 
-// PUT /api/auth/me → Update user profile
 export async function PUT(request) {
   await connectDB();
   const userId = await getUserFromRequest(request);

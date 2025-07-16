@@ -3,11 +3,13 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Blog from "@/models/Blog";
+import "@/models/User";
 import { getUserFromToken } from "@/lib/authMiddleware";
-import "@/models/User"; 
 
 export async function POST(req) {
   const { userId } = getUserFromToken();
+  console.log("userId: ", userId);
+
   await connectDB();
 
   const { title, description, content, bannerUrl, readTime } = await req.json();
@@ -22,13 +24,22 @@ export async function POST(req) {
   });
   return NextResponse.json(blog);
 }
-
 export async function GET(req) {
   await connectDB();
-  const { userId } = await getUserFromToken(req);
+
+  let userId;
+  try {
+    const user = await getUserFromToken(req);
+    userId = user.userId;
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Unauthorized. Invalid or missing token." },
+      { status: 401 }
+    );
+  }
 
   const { searchParams } = new URL(req.url);
-  const status = searchParams.get("status"); 
+  const status = searchParams.get("status");
 
   const filter = { author: userId };
   if (status) filter.status = status;
