@@ -40,6 +40,30 @@ export async function PUT(req, { params }) {
   return NextResponse.json(blog);
 }
 
+export async function PATCH(req, { params }) {
+  const { userId } = await getUserFromToken(req);
+  await connectDB();
+
+  const blog = await Blog.findOne({ _id: params.id, author: userId });
+
+  if (!blog) {
+    return NextResponse.json({ error: "Blog not found" }, { status: 404 });
+  }
+
+  // Toggle the status
+  const newStatus = blog.status === "published" ? "draft" : "published";
+
+  blog.status = newStatus;
+  await blog.save();
+  const blogs = await Blog.find({ author: userId });
+
+  return NextResponse.json({
+    message: `Blog status updated to ${newStatus}`,
+    status: newStatus,
+    blogs,
+  });
+}
+
 export async function DELETE(req, { params }) {
   const { userId } = getUserFromToken();
   await connectDB();

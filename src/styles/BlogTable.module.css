@@ -32,7 +32,7 @@
   padding: 0.1rem 0.3rem;
   border-radius: 6px;
   font-weight: 600;
-  font-size: .7rem;
+  font-size: 0.7rem;
   text-transform: capitalize;
 }
 
@@ -52,19 +52,37 @@
   color: var(--text-light);
 }
 
-.buttonGroup{
+.buttonGroup {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.buttonGroup a{
-  padding: .5rem;
+.buttonGroup a,
+.buttonGroup button {
+  padding: 0.5rem;
   text-decoration: none;
   color: var(--text-light);
+  border: none;
+  background: transparent;
 }
 
-.buttonGroup a:hover{
+.buttonGroup a:hover,
+.buttonGroup button:hover {
   color: var(--text);
+  scale: 1.1;
+  cursor: pointer;
+}
+
+.buttonGroup .deleteButton:hover {
+  color: var(--danger);
+}
+
+.buttonGroup .changeButton:hover {
+  color: var(--info);
+}
+
+.buttonGroup .deleteButton:disabled {
+  opacity: 0.1;
 }

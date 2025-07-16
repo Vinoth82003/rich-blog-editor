@@ -1,9 +1,14 @@
 import styles from "../styles/BlogCard.module.css";
-import { Clock, Edit2, EyeIcon, Trash2 } from "lucide-react";
+import {
+  ArrowRightLeftIcon,
+  Clock,
+  Edit2,
+  EyeIcon,
+  Trash2,
+} from "lucide-react";
 import Link from "next/link";
-import Spinner from "./Spinner";
 
-export default function BlogCard({ blog, onDelete }) {
+export default function BlogCard({ blog, onDelete, onStatusChange }) {
   return (
     <div className={styles.card}>
       {blog.bannerUrl && <img src={blog.bannerUrl} className={styles.banner} />}
@@ -31,6 +36,9 @@ export default function BlogCard({ blog, onDelete }) {
           <Link href={`/dashboard/${blog._id}/edit`}>
             {<Edit2 size={16} />}
           </Link>
+          <button onClick={() => onStatusChange(blog._id)}>
+            {<ArrowRightLeftIcon size={16} />}
+          </button>
           <button onClick={() => onDelete(blog._id)}>
             {<Trash2 size={16} />}
           </button>

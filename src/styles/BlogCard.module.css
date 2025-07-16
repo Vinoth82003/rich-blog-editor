@@ -98,7 +98,7 @@
 }
 
 .actions button {
-  border: none;
+  /* border: none; */
 }
 
 @media screen and (max-width: 768px) {

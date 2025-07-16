@@ -50,6 +50,7 @@ export default function BlogForm({ blogId }) {
   }, [blogId]);
 
   const submit = async () => {
+    setLoading(true);
     const method = blogId ? "PUT" : "POST";
     const url = blogId ? `/api/blogs/${blogId}` : "/api/blogs";
 
@@ -65,6 +66,7 @@ export default function BlogForm({ blogId }) {
       toast.success(blogId ? "Updated" : "Created");
       router.push("/dashboard");
     }
+    setLoading(false);
   };
 
   if (loading) {
@@ -87,6 +89,7 @@ export default function BlogForm({ blogId }) {
       setContent={(c) => setForm({ ...form, content: c })}
       onBack={() => setStep(1)}
       onSubmit={submit}
+      loading={loading}
     />
   );
 }

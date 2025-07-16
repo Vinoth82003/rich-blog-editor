@@ -58,10 +58,27 @@ export default function BlogList({ filter }) {
     }
   };
 
+  const toggleStatus = async (id) => {
+    const toastId = toast.loading("Changing blog Status...");
+    const res = await fetch(`/api/blogs/${id}`, {
+      method: "PATCH",
+    });
+
+    const data = await res.json();
+    setBlogs(data.blogs);
+    toast.success(data.message);
+    toast.dismiss(toastId);
+  };
+
   if (blogs === null) return <Spinner size={20} />;
   if (!blogs.length) return <p>No blogs found.</p>;
 
   return blogs.map((b) => (
-    <BlogCard key={b._id} blog={b} onDelete={deleteBlog} />
+    <BlogCard
+      key={b._id}
+      blog={b}
+      onDelete={deleteBlog}
+      onStatusChange={toggleStatus}
+    />
   ));
 }

@@ -11,6 +11,7 @@ import {
   FilePenIcon,
   MenuIcon,
   X,
+  BookCheckIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -27,6 +28,7 @@ export default function DashboardLayout({ children }) {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  
 
   return (
     <div className={styles.container}>
@@ -50,16 +52,10 @@ export default function DashboardLayout({ children }) {
             <FilePenIcon /> Create
           </Link>
           <Link
-            href="/dashboard/drafts"
-            className={pathname === "/dashboard/drafts" ? styles.active : ""}
+            href="/dashboard/blogs"
+            className={pathname === "/dashboard/blogs" ? styles.active : ""}
           >
-            <FileText /> Drafts
-          </Link>
-          <Link
-            href="/dashboard/published"
-            className={pathname === "/dashboard/published" ? styles.active : ""}
-          >
-            <CheckCircle2 /> Published
+            <BookCheckIcon /> Blogs
           </Link>
           <Link
             href="/dashboard/settings"

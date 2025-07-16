@@ -30,16 +30,36 @@
   margin-top: 1rem;
   opacity: 0.85;
 }
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
 
 .cta {
-  margin-top: 24px;
-  background: var(--primary);
-  color: var(--bg);
-  font-weight: bold;
-  padding: 12px 24px;
-  border-radius: 10px;
-  display: inline-block;
+  background-color: var(--primary);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.3s ease;
   text-decoration: none;
+}
+
+.secondary {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid var(--secondary);
+  color: var(--clr);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 .features {
@@ -55,11 +75,14 @@
   box-shadow: var(--card-shadow);
   border: 1px solid var(--card-border);
   text-align: center;
-  transition: transform 0.3s;
+  position: relative;
+  transition: transform 0.3s ease;
+  will-change: transform;
 }
 
 .card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
 .icon {
@@ -68,8 +91,58 @@
 }
 
 .ctaSection {
+  background: none;
+  color: var(--text);
+  padding: 3rem 2rem;
   text-align: center;
-  padding-bottom: 80px;
+  border-radius: 12px;
+  margin: 4rem auto;
+  max-width: 960px;
+  border: 1px solid var(--border, #e5e7eb);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(4px);
+}
+
+.ctaInner {
+  max-width: 600px;
+  margin: auto;
+}
+
+.ctaSection h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ctaSection h2 span {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.ctaSection p {
+  font-size: 1.1rem;
+  margin: 1.5rem 0;
+  color: var(--text-light, #6b7280);
+  line-height: 1.5;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: var(--primary-hover);
 }
 
 .howItWorks {

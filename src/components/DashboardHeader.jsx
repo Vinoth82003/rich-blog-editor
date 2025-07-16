@@ -12,7 +12,7 @@ export default function DashboardHeader({ username, now, stats }) {
         <span className={styles.wave}>👋 </span> {username}, welcome back!
       </div>
       <div className={styles.datetime}>
-        {format(now, "eeee, MMMM do yyyy - hh:mm:ss a")}
+        <p>{format(now, "eeee, MMMM do yyyy - hh:mm:ss a")}</p>
       </div>
       <div className={styles.stats}>
         <div className={styles.card}>

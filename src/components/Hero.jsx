@@ -1,6 +1,6 @@
 import styles from "../styles/Landing.module.css";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Sparkles, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 export default function Hero() {
@@ -15,9 +15,15 @@ export default function Hero() {
         <Sparkles size={36} /> Create, Preview & Publish Your <span>Blog</span>
       </h1>
       <p>Your powerful space to write, design, and manage stories.</p>
-      <Link href="/signup" className={styles.cta}>
-        Get Started
-      </Link>
+      <div className={styles.buttons}>
+        <Link href="/signup" className={styles.cta}>
+          Get Started
+        </Link>
+        <Link href="/blog" className={styles.secondary}>
+          <BookOpen size={18} style={{ marginRight: "6px" }} />
+          Read Blogs
+        </Link>
+      </div>
     </motion.section>
   );
 }

@@ -3,9 +3,14 @@
 import styles from "@/styles/BlogTable.module.css";
 import Spinner from "./Spinner";
 import Link from "next/link";
-import { Eye, PenIcon } from "lucide-react";
+import { ArrowLeftRightIcon, Eye, PenIcon, Trash2Icon } from "lucide-react";
 
-export default function BlogTable({ blogs }) {
+export default function BlogTable({
+  blogs,
+  onDelete,
+  onStatusChange,
+  loading,
+}) {
   //   const [blogs, setBlogs] = useState([]);
 
   if (!blogs) return <Spinner />;
@@ -45,12 +50,32 @@ export default function BlogTable({ blogs }) {
               </td>
               <td>
                 <div className={styles.buttonGroup}>
-                  <Link href={`/dashboard/${blog._id}/edit`}>
+                  <Link href={`/dashboard/${blog._id}/edit`} title="Edit Blog">
                     <PenIcon size={16} />
                   </Link>
-                  <Link href={`/blog/${blog.slug}`} target="_blank">
+                  <Link
+                    href={`/blog/${blog.slug}`}
+                    target="_blank"
+                    title="View Blog"
+                  >
                     <Eye size={16} />
                   </Link>
+                  <button
+                    className={styles.changeButton}
+                    onClick={() => onStatusChange(blog._id)}
+                    disabled={loading}
+                    title="change status"
+                  >
+                    {<ArrowLeftRightIcon size={16} />}
+                  </button>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => onDelete(blog._id)}
+                    disabled={loading}
+                    title="Delete Blog"
+                  >
+                    {<Trash2Icon size={16} />}
+                  </button>
                 </div>
               </td>
             </tr>

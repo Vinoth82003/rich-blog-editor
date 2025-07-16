@@ -1,10 +1,10 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import BlogList from "@/components/BlogList";
 
-export default function Published() {
+export default function Drafts() {
   return (
     <DashboardLayout>
-      <BlogList filter="published" />
+      <BlogList />
     </DashboardLayout>
   );
 }
