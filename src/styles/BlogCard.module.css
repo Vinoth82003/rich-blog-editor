@@ -44,7 +44,6 @@
   font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: 0.8rem;
-
 }
 
 .meta {
@@ -97,10 +96,6 @@
   border-color: var(--primary-hover);
 }
 
-.actions button {
-  /* border: none; */
-}
-
 @media screen and (max-width: 768px) {
   .card {
     flex-direction: column;
@@ -121,7 +116,7 @@
     gap: 8px;
   }
 
-  .details p{
+  .details p {
     max-height: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -130,5 +125,4 @@
     -webkit-box-orient: vertical;
     white-space: normal;
   }
-
 }

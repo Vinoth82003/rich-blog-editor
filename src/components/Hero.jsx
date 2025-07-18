@@ -19,7 +19,7 @@ export default function Hero() {
         <Link href="/signup" className={styles.cta}>
           Get Started
         </Link>
-        <Link href="/blog" className={styles.secondary}>
+        <Link href="/blogs" className={styles.secondary}>
           <BookOpen size={18} style={{ marginRight: "6px" }} />
           Read Blogs
         </Link>

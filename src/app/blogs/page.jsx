@@ -2,7 +2,7 @@
 
 import styles from "@/styles/BlogListPage.module.css";
 import Link from "next/link";
-import { User, Calendar, Clock, BookOpen, LoaderCircle } from "lucide-react";
+import { User, Calendar, Clock, BookOpen } from "lucide-react";
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
 import Footer from "@/components/Footer/Footer";
@@ -12,6 +12,7 @@ export default function BlogsPage() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     async function fetchBlogs() {
@@ -49,6 +50,24 @@ export default function BlogsPage() {
     fetchBlogs();
   }, [page]);
 
+  const highlightMatch = (text, term) => {
+    if (!term) return text;
+    const regex = new RegExp(`(${term})`, "gi");
+    return text.replace(regex, "<mark>$1</mark>");
+  };
+
+  const filteredBlogs = blogs
+    .filter(
+      (b) =>
+        b.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        b.description.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((b) => ({
+      ...b,
+      title: highlightMatch(b.title, searchTerm),
+      description: highlightMatch(b.description, searchTerm),
+    }));
+
   return (
     <div className={styles.blogsWrapper}>
       <h1 className={styles.title}>
@@ -56,28 +75,28 @@ export default function BlogsPage() {
         All Published Blogs
       </h1>
 
+      <input
+        type="text"
+        placeholder="Search by title or description..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className={styles.searchInput}
+      />
+
       {loading ? (
-        <div
-          style={{
-            marginTop: "3rem",
-            fontSize: "1.2rem",
-            display: "flex",
-            alignItems: "center",
-            gap: ".5rem",
-          }}
-        >
+        <div className={styles.loading}>
           <Spinner />
           <p>Loading blogs...</p>
         </div>
-      ) : blogs.length === 0 ? (
+      ) : filteredBlogs.length === 0 ? (
         <p style={{ textAlign: "center", marginTop: "2rem" }}>
           No blogs found.
         </p>
       ) : (
         <div className={styles.grid}>
-          {blogs.map((blog) => (
+          {filteredBlogs.map((blog) => (
             <Link
-              href={`/blog/${blog.slug}`}
+              href={`/blogs/${blog.slug}`}
               key={blog._id}
               className={styles.card}
               target="_blank"
@@ -94,8 +113,14 @@ export default function BlogsPage() {
                 </div>
               )}
               <div className={styles.content}>
-                <h2 className={styles.blogTitle}>{blog.title}</h2>
-                <p className={styles.description}>{blog.description}</p>
+                <h2
+                  className={styles.blogTitle}
+                  dangerouslySetInnerHTML={{ __html: blog.title }}
+                />
+                <p
+                  className={styles.description}
+                  dangerouslySetInnerHTML={{ __html: blog.description }}
+                />
                 <div className={styles.meta}>
                   <span>
                     <User size={16} /> {blog.author}
@@ -133,7 +158,6 @@ export default function BlogsPage() {
         </div>
       )}
 
-      {/* Footer */}
       <Footer />
     </div>
   );

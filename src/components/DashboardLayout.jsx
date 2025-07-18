@@ -13,6 +13,7 @@ import {
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { handleLogout } from "@/lib/auth/client";
+import Breadcrumb from "./Breadcrumb";
 
 export default function DashboardLayout({ children }) {
   const pathname = usePathname();
@@ -21,7 +22,6 @@ export default function DashboardLayout({ children }) {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
 
   return (
     <div className={styles.container}>
@@ -69,7 +69,10 @@ export default function DashboardLayout({ children }) {
           {!isMenuOpen ? <MenuIcon /> : <X />}
         </button>
       </aside>
-      <main className={styles.content}>{children}</main>
+      <main className={styles.content}>
+        <Breadcrumb/>
+        {children}
+      </main>
     </div>
   );
 }

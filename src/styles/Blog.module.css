@@ -75,13 +75,14 @@
   margin-bottom: 2rem;
 }
 
-.blogContent hr{
-    border: none;
-    height: 1px;
-    background: #c8c8c86f;
+.blogContent hr {
+  border: none;
+  height: 1px;
+  background: #c8c8c835;
 }
 
-.blogContent ul,.blogContent ol{
+.blogContent ul,
+.blogContent ol {
   margin-left: 1rem;
 }
 
@@ -104,18 +105,14 @@
   }
 }
 
-
 @media screen and (max-width: 600px) {
-  .blogContent pre{
+  .blogContent pre {
     max-width: 400px;
   }
-  
 }
 
-
 @media screen and (max-width: 480px) {
-  .blogContent pre{
+  .blogContent pre {
     max-width: 280px;
   }
-  
 }

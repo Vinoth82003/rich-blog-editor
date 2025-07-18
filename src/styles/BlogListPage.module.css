@@ -126,6 +126,18 @@
   color: var(--text-light);
 }
 
+.searchInput {
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 8px;
+  border: 1px solid var(--border-mid);
+  background: var(--input-bg);
+  color: var(--text);
+}
+
 @media screen and (max-width: 768px) {
   .blogsWrapper {
     padding: 1rem;
