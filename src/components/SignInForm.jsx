@@ -111,6 +111,9 @@ export default function SignInForm() {
             Don’t have an account? <Link href="/signup">Sign Up</Link>
           </p>
           <p className={styles.switchAuth}>
+            Forgot password? <Link href="/forgot-password">Change</Link>
+          </p>
+          <p className={styles.switchAuth}>
             Go Back to <Link href="/">Home</Link>
           </p>
         </form>
