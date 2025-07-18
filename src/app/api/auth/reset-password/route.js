@@ -4,11 +4,19 @@ import { NextResponse } from "next/server";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import connectDB from "@/lib/db";
+import Otp from "@/models/Otp";
 
 export async function POST(req) {
   const { email, password } = await req.json();
   if (!email || password.length < 6) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
+  }
+
+  const found = await Otp.findOne({email})
+
+  if (!found.isVerified) {
+    return NextResponse.json({ error: "OTP not Verified" }, { status: 401 });
+
   }
 
   try {

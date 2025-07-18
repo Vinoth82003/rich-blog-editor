@@ -18,6 +18,6 @@ export async function verifyOTP(email, otp) {
 
   if (!found) return false;
   const isValid = found.otp === otp && found.expiresAt > new Date();
-  if (isValid) await Otp.deleteOne({ _id: found._id });
+  if (isValid) found.isVerified = true;
   return isValid;
 }
