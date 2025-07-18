@@ -169,15 +169,27 @@
 
 .buttonGroup {
   display: flex;
+  align-items: center;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-.buttonGroup button {
+.buttonGroup button,
+.buttonGroup a {
   display: flex;
   align-items: center;
   gap: 6px;
   color: var(--clr);
+}
+
+.buttonGroup a {
+  background: var(--info-hover);
+  padding: 10px 1rem;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
 }
 
 .breadcrumb {

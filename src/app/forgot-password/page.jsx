@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { MailCheck, ShieldCheck, KeyRound } from "lucide-react";
 
 export default function ForgotPassword() {
@@ -66,7 +66,6 @@ export default function ForgotPassword() {
 
   return (
     <div className={styles.page}>
-      <Toaster position="top-center" />
       <h1>Forgot Password</h1>
 
       {step === 1 && (

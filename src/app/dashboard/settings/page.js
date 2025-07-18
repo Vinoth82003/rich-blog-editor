@@ -13,15 +13,20 @@ import {
   ClipboardCopy,
   CheckCircle2,
   Trash2Icon,
+  Lock,
 } from "lucide-react";
 import Swal from "sweetalert2";
 import { fetchWithAuth } from "@/lib/auth/client";
+import { useRouter } from "next/navigation";
 
 export default function Settings() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
   const [copied, setCopied] = useState(false);
+  const notify = (msg, type = "success") => toast[type](msg);
+  const router = useRouter();
 
   useEffect(() => {
     fetchWithAuth("/api/auth/me")
@@ -106,6 +111,27 @@ export default function Settings() {
     toast.dismiss(toastId);
   };
 
+  const handleSendOTP = async (emailToSend = email) => {
+    if (!emailToSend.includes("@")) return notify("Invalid email", "error");
+
+    setEmailLoading(true);
+    const res = await fetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: emailToSend }),
+    });
+    setEmailLoading(false);
+
+    const data = await res.json();
+    res.ok
+      ? (notify("OTP sent"),
+        router.push(
+          `/dashboard/settings/change-password?email=${encodeURIComponent(
+            user.email
+          )}`
+        ))
+      : notify(data.error, "error");
+  };
 
   return (
     <DashboardLayout>
@@ -176,6 +202,22 @@ export default function Settings() {
                 <LockKeyhole size={16} /> Generate API Key
               </button>
             )}
+            <button
+              onClick={() => handleSendOTP(user.email)}
+              disabled={emailLoading}
+            >
+              {emailLoading ? (
+                <>
+                  {" "}
+                  <Spinner /> Sending OTP.....
+                </>
+              ) : (
+                <>
+                  <Lock size={16} /> Change Password
+                </>
+              )}
+            </button>
+
             <button onClick={save} disabled={loading}>
               <SaveAll size={16} /> Save
             </button>
