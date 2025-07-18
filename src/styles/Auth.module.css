@@ -38,7 +38,7 @@
   border: 1px solid var(--card-border);
 }
 
-.authContainer form label.checkbox{
+.authContainer form label.checkbox {
   display: inline-flex;
   cursor: pointer;
 }
@@ -50,6 +50,14 @@
   outline: none;
   color: inherit;
   font-size: 1rem;
+}
+
+.authContainer input {
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.authContainer input:focus {
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.05);
 }
 
 .authContainer button {
@@ -89,4 +97,36 @@
 .authContainer form button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.authContainer button:hover {
+  background: #2563eb; /* Slightly darker blue */
+}
+
+.authContainer button:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.authContainer button {
+  transition: background 0.3s ease;
+}
+
+.authCard {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.authCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 480px) {
+  .authCard {
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  .authCard h2 {
+    font-size: 1.5rem;
+  }
 }
