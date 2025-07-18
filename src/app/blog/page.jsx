@@ -10,16 +10,19 @@ import Footer from "@/components/Footer/Footer";
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     async function fetchBlogs() {
+      setLoading(true);
       try {
-        const res = await fetch("/api/blogs/public");
+        const res = await fetch(`/api/blogs/public?page=${page}&limit=6`);
         if (!res.ok) throw new Error("Failed to fetch blogs");
 
-        const data = await res.json();
+        const { blogs, totalPages } = await res.json();
 
-        const formatted = data.map((b) => ({
+        const formatted = blogs.map((b) => ({
           _id: b._id,
           title: b.title,
           description: b.description,
@@ -35,6 +38,7 @@ export default function BlogsPage() {
         }));
 
         setBlogs(formatted);
+        setTotalPages(totalPages);
       } catch (err) {
         console.error(err);
       } finally {
@@ -43,7 +47,7 @@ export default function BlogsPage() {
     }
 
     fetchBlogs();
-  }, []);
+  }, [page]);
 
   return (
     <div className={styles.blogsWrapper}>
@@ -106,6 +110,26 @@ export default function BlogsPage() {
               </div>
             </Link>
           ))}
+        </div>
+      )}
+
+      {!loading && totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            disabled={page === 1}
+          >
+            Prev
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+            disabled={page === totalPages}
+          >
+            Next
+          </button>
         </div>
       )}
 

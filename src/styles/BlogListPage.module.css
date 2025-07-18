@@ -98,6 +98,34 @@
   gap: 5px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pagination button {
+  background-color: var(--card-bg);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-mid);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 1rem;
+  color: var(--text-light);
+}
+
 @media screen and (max-width: 768px) {
   .blogsWrapper {
     padding: 1rem;
