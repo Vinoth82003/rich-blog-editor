@@ -30,7 +30,7 @@ export default function Footer() {
           <a href="/signin" className={styles.footerLink}>
             sign in
           </a>
-          <a href="/blog" className={styles.footerLink}>
+          <a href="/blogs" className={styles.footerLink}>
             blogs
           </a>
         </nav>
