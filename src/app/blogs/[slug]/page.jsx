@@ -4,7 +4,7 @@ import Blog from "@/models/Blog";
 import styles from "@/styles/Blog.module.css";
 import { ListCheckIcon } from "lucide-react";
 import BlogContentRenderer from "@/components/BlogContentRenderer";
-import BlogStats from "@/components/BlogPage";
+import BlogStats from "@/components/BlogStats";
 
 // Metadata
 export async function generateMetadata({ params }) {

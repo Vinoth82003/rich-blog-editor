@@ -2,10 +2,11 @@
 
 import styles from "@/styles/BlogListPage.module.css";
 import Link from "next/link";
-import { User, Calendar, Clock, BookOpen } from "lucide-react";
+import { User, Calendar, Clock, BookOpen, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
 import Footer from "@/components/Footer/Footer";
+import BlogStats from "@/components/BlogStats";
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
@@ -130,6 +131,9 @@ export default function BlogsPage() {
                   </span>
                   <span>
                     <Clock size={16} /> {blog.readTime} min read
+                  </span>
+                  <span>
+                    <Eye size={16} /> <BlogStats slug={blog.slug} />
                   </span>
                 </div>
               </div>
