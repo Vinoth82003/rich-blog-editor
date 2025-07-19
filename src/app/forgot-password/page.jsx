@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "./page.module.css";
 import toast from "react-hot-toast";
 import { MailCheck, ShieldCheck, KeyRound } from "lucide-react";
+import Link from "next/link";
 
 export default function ForgotPassword() {
   const [step, setStep] = useState(1);
@@ -82,6 +83,9 @@ export default function ForgotPassword() {
           <button onClick={handleSendOTP} disabled={loading}>
             {loading ? "Sending..." : "Send OTP"}
           </button>
+          <p className={styles.switchAuth}>
+            Go Back to <Link href="/">Home</Link>
+          </p>
         </div>
       )}
 

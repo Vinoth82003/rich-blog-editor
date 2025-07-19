@@ -50,3 +50,16 @@
 .page button:hover {
   background-color: #4338ca;
 }
+
+
+.switchAuth {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.switchAuth a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}

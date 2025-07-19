@@ -33,9 +33,6 @@ export default function Footer() {
           <a href="/blog" className={styles.footerLink}>
             blogs
           </a>
-          <a href="/forgot-password" className={styles.footerLink}>
-            Change Password
-          </a>
         </nav>
 
         <div className={styles.footerSocial}>
