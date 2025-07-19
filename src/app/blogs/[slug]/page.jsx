@@ -4,6 +4,7 @@ import Blog from "@/models/Blog";
 import styles from "@/styles/Blog.module.css";
 import { ListCheckIcon } from "lucide-react";
 import BlogContentRenderer from "@/components/BlogContentRenderer";
+import BlogStats from "@/components/BlogPage";
 
 // Metadata
 export async function generateMetadata({ params }) {
@@ -58,7 +59,8 @@ export default async function BlogPage({ params }) {
             }}
           />
         )}
-        <BlogContentRenderer html={blogWithIds} />
+        {blog && <BlogStats slug={params.slug} />}
+        {blog && <BlogContentRenderer html={blogWithIds} />}
       </main>
     </div>
   );

@@ -5,12 +5,11 @@ import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-json";
-// add more as needed
 
 export default function BlogContentRenderer({ html }) {
   useEffect(() => {
     Prism.highlightAll();
-  }, []);
+  }, [html]);
 
   return (
     <div

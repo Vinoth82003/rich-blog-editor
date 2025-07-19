@@ -29,9 +29,14 @@ export default function Settings() {
   const router = useRouter();
 
   useEffect(() => {
-    fetchWithAuth("/api/auth/me")
-      .then((r) => r.json())
-      .then(setUser);
+    const fetchUser = async () => {
+      const res = await fetchWithAuth("/api/auth/me");
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      }
+    };
+    fetchUser();
   }, []);
 
   const save = async () => {

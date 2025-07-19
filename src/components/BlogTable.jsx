@@ -54,7 +54,7 @@ export default function BlogTable({
                     <PenIcon size={16} />
                   </Link>
                   <Link
-                    href={`/blog/${blog.slug}`}
+                    href={`/blogs/${blog.slug}`}
                     target="_blank"
                     title="View Blog"
                   >
