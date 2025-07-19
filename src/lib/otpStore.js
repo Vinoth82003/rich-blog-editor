@@ -19,5 +19,7 @@ export async function verifyOTP(email, otp) {
   if (!found) return false;
   const isValid = found.otp === otp && found.expiresAt > new Date();
   if (isValid) found.isVerified = true;
+  await found.save();
+  
   return isValid;
 }

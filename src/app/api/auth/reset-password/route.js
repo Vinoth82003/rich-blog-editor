@@ -12,11 +12,10 @@ export async function POST(req) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 
-  const found = await Otp.findOne({email})
+  const found = await Otp.findOne({ email });
 
   if (!found.isVerified) {
     return NextResponse.json({ error: "OTP not Verified" }, { status: 401 });
-
   }
 
   try {
@@ -29,7 +28,8 @@ export async function POST(req) {
     const hashedPassword = await bcrypt.hash(password, 10);
     user.password = hashedPassword;
     await user.save();
-
+    // delete otp
+    await Otp.deleteMany({ email });
     return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json(
