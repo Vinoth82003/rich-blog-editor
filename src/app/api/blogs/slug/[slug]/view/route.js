@@ -18,7 +18,6 @@ export async function POST(req, { params }) {
     { new: true } // return updated document
   );
 
-  console.log("blog: ", blog);
 
   if (!blog) {
     return NextResponse.json({ error: "Blog not found" }, { status: 404 });

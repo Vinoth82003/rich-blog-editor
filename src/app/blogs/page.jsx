@@ -2,7 +2,15 @@
 
 import styles from "@/styles/BlogListPage.module.css";
 import Link from "next/link";
-import { User, Calendar, Clock, BookOpen, Eye } from "lucide-react";
+import {
+  User,
+  Calendar,
+  Clock,
+  BookOpen,
+  Eye,
+  EyeIcon,
+  ThumbsUpIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
 import Footer from "@/components/Footer/Footer";
@@ -32,6 +40,8 @@ export default function BlogsPage() {
           slug: b.slug,
           readTime: b.readTime || "3 min",
           author: b.author?.name || "Unknown",
+          views: b.views || 0,
+          likes: b.likes.length || 0,
           createdAt: new Date(b.createdAt).toLocaleDateString("en-IN", {
             day: "numeric",
             month: "short",
@@ -132,9 +142,16 @@ export default function BlogsPage() {
                   <span>
                     <Clock size={16} /> {blog.readTime} min read
                   </span>
-                  <span>
-                    <Eye size={16} /> <BlogStats slug={blog.slug} />
-                  </span>
+                  {blog?.views && (
+                    <span>
+                      <EyeIcon size={16} /> {blog?.views} views
+                    </span>
+                  )}
+                  {blog?.likes > 0 && (
+                    <span>
+                      <ThumbsUpIcon size={16} /> {blog?.likes} likes
+                    </span>
+                  )}
                 </div>
               </div>
             </Link>

@@ -60,9 +60,15 @@ export default async function BlogPage({ params }) {
             }}
           />
         )}
-        {blog && <BlogStats slug={params.slug} />}
+        {blog && (
+          <BlogStats
+            slug={params.slug}
+            views={blog?.views}
+            likes={blog?.likes.length}
+          />
+        )}
         {blog && <BlogContentRenderer html={blogWithIds} />}
-        {blog && <BlogFooter slug={params.slug} />}
+        {blog && <BlogFooter slug={params.slug} likes={blog?.likes.length} />}
       </main>
     </div>
   );

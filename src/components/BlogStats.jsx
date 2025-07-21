@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Eye, ThumbsUp } from "lucide-react";
 import { shouldTrackView } from "../../utils/viewTracker";
+import styles from "../styles/BlogStats.module.css";
 
-function BlogStats({ slug }) {
-  const [views, setViews] = useState(null);
-
+function BlogStats({ slug, views, likes }) {
   useEffect(() => {
     if (shouldTrackView(slug)) {
       fetch(`/api/blogs/slug/${slug}/view`, {
@@ -13,18 +13,17 @@ function BlogStats({ slug }) {
     }
   }, [slug]);
 
-  useEffect(() => {
-    fetch(`/api/blogs/slug/${slug}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.views !== undefined) setViews(data.views);
-      });
-  }, [slug]);
-
   return (
-    <p style={{ fontSize: "0.9rem", color: "#888" }}>
-      {views !== null ? `${views.toLocaleString()} views` : "Loading views..."}
-    </p>
+    <div className={styles.statsWrapper}>
+      <div className={styles.statItem}>
+        <Eye size={18} />
+        <span>{views?.toLocaleString() || 0} views</span>
+      </div>
+      <div className={styles.statItem}>
+        <ThumbsUp size={18} />
+        <span>{likes ?? 0} likes</span>
+      </div>
+    </div>
   );
 }
 

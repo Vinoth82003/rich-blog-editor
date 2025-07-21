@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithAuth } from "@/lib/auth/client";
 import styles from "../styles/BlogFooter.module.css";
 import {
   Facebook,
@@ -8,14 +9,19 @@ import {
   ThumbsUp,
   Share2,
   Send,
-  MessageCircleMore,
 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Spinner from "./Spinner";
+import { useRouter } from "next/navigation";
 
-export default function BlogFooter({ slug }) {
+export default function BlogFooter({ slug, likes }) {
   const [liked, setLiked] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [totalLikes, setTotalLikes] = useState(likes);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const blogUrl = `${
     typeof window !== "undefined" ? window.location.origin : ""
   }/blogs/${slug}`;
@@ -25,14 +31,57 @@ export default function BlogFooter({ slug }) {
     toast.success("Link copied to clipboard!");
   };
 
+  const handleLike = async () => {
+    if (loading) return;
+
+    try {
+      setLoading(true);
+
+      const res = await fetchWithAuth(`/api/blogs/slug/${slug}/like`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.message === "Unauthorized") {
+          toast.error("Please log in to like the post.");
+          router.push("/signin");
+          return;
+        }
+        throw new Error(data.message || "Failed to like");
+      }
+
+      toast.success(`${data.liked ? "Liked" : "Disliked"}`);
+
+      setLiked(data.liked);
+      setTotalLikes(data.totalLikes);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className={styles.blogFooter}>
       <button
         className={`${styles.iconButton} ${liked ? styles.liked : ""}`}
-        onClick={() => setLiked(!liked)}
+        onClick={handleLike}
+        disabled={loading}
       >
-        <ThumbsUp size={20} />
-        {liked ? "Liked" : "Like"}
+        {loading ? (
+          <>
+            <Spinner /> Liking...
+          </>
+        ) : (
+          <>
+            <ThumbsUp size={20} />
+            {liked ? "Liked" : "Like"}
+            {totalLikes > 0 && ` ${totalLikes} Likes`}
+          </>
+        )}
       </button>
 
       <button className={styles.iconButton} onClick={handleCopy}>
