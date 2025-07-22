@@ -1,12 +1,14 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+
 import DashboardLayout from "@/components/DashboardLayout";
 import DashboardHeader from "@/components/DashboardHeader";
 import BlogTable from "@/components/BlogTable";
-import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
-import toast from "react-hot-toast";
-import Swal from "sweetalert2";
+import AnalyticsChart from "@/components/AnalyticsChart";
 import { fetchWithAuth } from "@/lib/auth/client";
 
 export default function Dashboard() {
@@ -14,22 +16,20 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [username, setUsername] = useState("User");
-  const [now, setNow] = useState(new Date());
-  const [stats, setStats] = useState({
-    published: null,
-    drafts: null,
-    total: null,
-  });
 
-  useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
+  const stats = useMemo(() => {
     const published = blogs.filter((b) => b.status === "published").length;
     const drafts = blogs.filter((b) => b.status === "draft").length;
-    setStats({ published, drafts, total: blogs.length });
+    return { published, drafts, total: blogs.length };
+  }, [blogs]);
+
+  const analytic = useMemo(() => {
+    return blogs.map((blog) => ({
+      title:
+        blog.title.length > 20 ? blog.title.slice(0, 20) + "..." : blog.title,
+      views: blog.views || 0,
+      likes: blog.likes?.length || 0,
+    }));
   }, [blogs]);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function Dashboard() {
       const toastId = toast.loading("Deleting blog...");
       const res = await fetchWithAuth(`/api/blogs/${id}`, { method: "DELETE" });
       if (res.ok) {
-        setBlogs((b) => b.filter((x) => x._id !== id));
+        setBlogs((prev) => prev.filter((x) => x._id !== id));
         toast.success("Blog deleted!");
       } else {
         toast.error("Failed to delete");
@@ -78,11 +78,8 @@ export default function Dashboard() {
 
   const toggleStatus = async (id) => {
     setUpdateLoading(true);
-    const toastId = toast.loading("Changing blog Status...");
-    const res = await fetchWithAuth(`/api/blogs/${id}`, {
-      method: "PATCH",
-    });
-
+    const toastId = toast.loading("Changing blog status...");
+    const res = await fetchWithAuth(`/api/blogs/${id}`, { method: "PATCH" });
     const data = await res.json();
     setBlogs(data.blogs);
     toast.success(data.message);
@@ -92,9 +89,10 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      {!loading || !blogs ? (
+      {!loading && blogs.length > 0 ? (
         <>
-          <DashboardHeader username={username} now={now} stats={stats} />
+          <DashboardHeader username={username} stats={stats} />
+          <AnalyticsChart data={analytic} />
           <BlogTable
             blogs={blogs}
             onDelete={deleteBlog}

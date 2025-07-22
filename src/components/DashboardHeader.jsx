@@ -4,8 +4,16 @@ import styles from "@/styles/DashboardHeader.module.css";
 import { CheckCircle2, FileText, FileStack } from "lucide-react";
 import { format } from "date-fns";
 import Spinner from "./Spinner";
+import { useEffect, useState } from "react";
 
-export default function DashboardHeader({ username, now, stats }) {
+export default function DashboardHeader({ username, stats }) {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className={styles.headerWrapper}>
       <div className={styles.welcome}>
