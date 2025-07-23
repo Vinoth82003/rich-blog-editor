@@ -8,6 +8,12 @@ export async function POST(req, { params }) {
 
   try {
     const user = await getUserFromToken(req);
+    // console.log(
+    //   "\n\n-------------\nuser: ",
+    //   user,
+    //   "\n----------------------\n\n"
+    // );
+
     if (!user)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -15,12 +21,12 @@ export async function POST(req, { params }) {
     if (!blog)
       return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-    const alreadyLiked = blog.likes.includes(user._id);
+    const alreadyLiked = blog.likes.includes(user.userId);
 
     if (alreadyLiked) {
-      blog.likes.pull(user._id);
+      blog.likes.pull(user.userId);
     } else {
-      blog.likes.push(user._id);
+      blog.likes.push(user.userId);
     }
 
     await blog.save();
