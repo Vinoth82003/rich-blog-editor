@@ -19,6 +19,11 @@ export default function BlogForm({ blogId }) {
     bannerUrl: "",
     readTime: "",
     status: "draft",
+    slug: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: "",
+    canonicalUrl: "",
   });
 
   // Fetch blog if blogId is given
@@ -38,6 +43,11 @@ export default function BlogForm({ blogId }) {
           bannerUrl: data.bannerUrl || "",
           readTime: data.readTime || "",
           status: data.status || "draft",
+          slug: data.slug || "",
+          metaTitle: data.metaTitle || "",
+          metaDescription: data.metaDescription || "",
+          metaKeywords: data.metaKeywords || "",
+          canonicalUrl: data.canonicalUrl || "",
         });
       } catch (err) {
         toast.error(err.message || "Error loading blog");
@@ -80,7 +90,12 @@ export default function BlogForm({ blogId }) {
 
   if (step === 1) {
     return (
-      <BlogDetails form={form} setForm={setForm} onNext={() => setStep(2)} />
+      <BlogDetails
+        form={form}
+        setForm={setForm}
+        onNext={() => setStep(2)}
+        showMetadata={true} // pass flag to show metadata fields
+      />
     );
   }
 

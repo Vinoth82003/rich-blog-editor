@@ -7,23 +7,57 @@ import "@/models/User";
 import { getUserFromToken } from "@/lib/authMiddleware";
 
 export async function POST(req) {
-  const { userId } = getUserFromToken();
-  console.log("userId: ", userId);
-
   await connectDB();
 
-  const { title, description, content, bannerUrl, readTime } = await req.json();
+  let userId;
+  try {
+    const user = await getUserFromToken(req);
+    userId = user.userId;
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Unauthorized. Invalid or missing token." },
+      { status: 401 }
+    );
+  }
 
-  const blog = await Blog.create({
-    author: userId,
+  // Extract blog fields from request body
+  const {
     title,
     description,
     content,
     bannerUrl,
     readTime,
-  });
-  return NextResponse.json(blog);
+    status,
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    canonicalUrl,
+  } = await req.json();
+
+  try {
+    const blog = await Blog.create({
+      author: userId,
+      title,
+      description,
+      content,
+      bannerUrl,
+      readTime,
+      status,
+      metaTitle,
+      metaDescription,
+      metaKeywords,
+      canonicalUrl,
+    });
+
+    return NextResponse.json(blog);
+  } catch (error) {
+    return NextResponse.json(
+      { error: error.message || "Failed to create blog" },
+      { status: 500 }
+    );
+  }
 }
+
 export async function GET(req) {
   await connectDB();
 

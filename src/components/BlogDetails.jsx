@@ -4,12 +4,12 @@ import styles from "../styles/BlogForm.module.css";
 
 export default function BlogDetails({ form, setForm, onNext }) {
   const [errors, setErrors] = useState({});
+  const [showSeo, setShowSeo] = useState(false); // toggle SEO section
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
-    // Clear error on change
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -35,6 +35,7 @@ export default function BlogDetails({ form, setForm, onNext }) {
     <div className={styles.formContainer}>
       <h2>📝 Blog Info</h2>
 
+      {/* Basic Blog Fields */}
       <label>
         Title <span className={styles.required}>*</span>
         <input
@@ -90,7 +91,74 @@ export default function BlogDetails({ form, setForm, onNext }) {
         </select>
       </label>
 
-      <button onClick={handleNext}>
+      {/* SEO Section */}
+      <div className={styles.seoSection}>
+        <button
+          type="button"
+          className={styles.toggleSeoBtn}
+          onClick={() => setShowSeo(!showSeo)}
+        >
+          {showSeo ? "▼ Hide SEO Metadata" : "▶ Show SEO Metadata"}
+        </button>
+
+        {showSeo && (
+          <div className={styles.seoFields}>
+            <h3>🔍 SEO Metadata</h3>
+
+            <label>
+              Slug (URL path)
+              <input
+                name="slug"
+                value={form.slug}
+                onChange={handleChange}
+                placeholder="my-awesome-blog-post"
+              />
+            </label>
+
+            <label>
+              Meta Title
+              <input
+                name="metaTitle"
+                value={form.metaTitle}
+                onChange={handleChange}
+                placeholder="Best Waffle Coffee Cups in 2025"
+              />
+            </label>
+
+            <label>
+              Meta Description
+              <textarea
+                name="metaDescription"
+                value={form.metaDescription}
+                onChange={handleChange}
+                placeholder="A short summary for search engines..."
+              />
+            </label>
+
+            <label>
+              Meta Keywords (comma separated)
+              <input
+                name="metaKeywords"
+                value={form.metaKeywords}
+                onChange={handleChange}
+                placeholder="waffle cups, edible coffee cups, eco friendly"
+              />
+            </label>
+
+            <label>
+              Canonical URL
+              <input
+                name="canonicalUrl"
+                value={form.canonicalUrl}
+                onChange={handleChange}
+                placeholder="https://example.com/blog/my-awesome-post"
+              />
+            </label>
+          </div>
+        )}
+      </div>
+
+      <button onClick={handleNext} className={styles.nextBtn}>
         Next <ArrowRight size={16} />
       </button>
     </div>
