@@ -23,9 +23,17 @@ export async function GET(request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const user = await User.findById(userId).select("-password");
-  user.apiKey = await decryptApiKey(user.apiKey);
+
+  // Only decrypt if apiKey exists and is not null
+  if (user.apiKey) {
+    user.apiKey = await decryptApiKey(user.apiKey);
+  } else {
+    user.apiKey = null; // or user.apiKey = ""; depending on your preference
+  }
+
   return NextResponse.json(user);
 }
+
 
 export async function PUT(request) {
   await connectDB();

@@ -66,6 +66,10 @@ export default function Settings() {
   };
 
   const copyToClipboard = async () => {
+    if (!user?.apiKey) {
+      toast.error("No API Key to copy");
+      return;
+    }
     try {
       await navigator.clipboard.writeText(user.apiKey);
       setCopied(true);
@@ -213,7 +217,6 @@ export default function Settings() {
             >
               {emailLoading ? (
                 <>
-                  {" "}
                   <Spinner /> Sending OTP.....
                 </>
               ) : (
