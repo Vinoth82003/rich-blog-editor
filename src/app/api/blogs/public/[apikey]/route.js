@@ -57,7 +57,9 @@ export async function GET(req, { params }) {
   }
 
   const blogs = await Blog.find({ author: matched._id })
-    .select("title description content createdAt updatedAt slug readTime")
+    .select(
+      "title description content createdAt updatedAt slug readTime bannerUrl"
+    )
     .sort({ createdAt: -1 });
 
   return NextResponse.json(blogs, { headers: corsHeaders });
