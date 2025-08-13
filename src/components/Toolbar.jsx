@@ -14,6 +14,12 @@ import {
   AlignRight,
   Quote,
   Minus,
+  Table,
+  TableProperties,
+  Rows,
+  Columns,
+  Table2,
+  Trash2,
 } from "lucide-react";
 import styles from "../styles/Toolbar.module.css";
 
@@ -73,7 +79,74 @@ export default function Toolbar({ editor, fileInputRef }) {
       >
         <Code2 size={16} />
       </button>
+      <button
+        onClick={() =>
+          editor
+            .chain()
+            .focus()
+            .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+            .run()
+        }
+      >
+        <Table size={16} />
+      </button>
+      {editor.isActive('table') && (
+        <>
+          <button
+            onClick={() => editor.chain().focus().addColumnBefore().run()}
+            disabled={!editor.can().addColumnBefore()}
+          >
+            <Columns size={16} />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().addColumnAfter().run()}
+            disabled={!editor.can().addColumnAfter()}
+          >
+            <Columns size={16} style={{ transform: 'rotate(180deg)' }} />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().deleteColumn().run()}
+            disabled={!editor.can().deleteColumn()}
+          >
+            <Columns size={16} style={{ opacity: 0.5 }} />
+          </button>
 
+          <button
+            onClick={() => editor.chain().focus().addRowBefore().run()}
+            disabled={!editor.can().addRowBefore()}
+          >
+            <Rows size={16} />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().addRowAfter().run()}
+            disabled={!editor.can().addRowAfter()}
+          >
+            <Rows size={16} style={{ transform: 'rotate(180deg)' }} />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().deleteRow().run()}
+            disabled={!editor.can().deleteRow()}
+          >
+            <Rows size={16} style={{ opacity: 0.5 }} />
+          </button>
+
+          <button
+            onClick={() => editor.chain().focus().toggleHeaderColumn().run()}
+          >
+            <TableProperties size={16} />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleHeaderRow().run()}
+          >
+            <Table2 size={16} />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().deleteTable().run()}
+          >
+            <Trash2 size={16} />
+          </button>
+        </>
+      )}
       <button
         onClick={() => {
           const url = prompt("Enter image URL");

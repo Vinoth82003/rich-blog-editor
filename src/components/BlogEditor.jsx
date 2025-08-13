@@ -8,6 +8,10 @@ import TextAlign from "@tiptap/extension-text-align";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import FontSize from "@tiptap/extension-font-size";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableCell } from "@tiptap/extension-table-cell";
 import styles from "../styles/BlogEditor.module.css";
 import Toolbar from "./Toolbar";
 import { useRef, useState } from "react";
@@ -25,7 +29,7 @@ export default function BlogEditor({ content, setContent, onBack, onSubmit, load
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ codeBlock: false }),
-      PrismCodeBlock, // ✅ use custom Prism block
+      PrismCodeBlock,
       Image.configure({ allowBase64: true }),
       Youtube.configure({ width: 640, height: 360 }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
@@ -33,6 +37,16 @@ export default function BlogEditor({ content, setContent, onBack, onSubmit, load
       TextStyle,
       Color,
       FontSize,
+      // Add table extensions
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: styles.table,
+        },
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content,
     editorProps: {
