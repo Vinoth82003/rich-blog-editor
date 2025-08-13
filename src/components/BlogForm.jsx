@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import BlogDetails from "./BlogDetails";
-import BlogEditor from "./BlogEditor";
 import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";

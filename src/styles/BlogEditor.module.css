@@ -5,7 +5,7 @@
   overflow-y: scroll;
   margin-top: 1.5rem;
   position: relative;
-  height: 77dvh;
+  height: 78dvh;
 }
 
 .editorArea {
@@ -77,3 +77,181 @@
   color: var(--text-light);
 }
 
+.editorContainer {
+  position: relative;
+  flex-grow: 1;
+  min-height: 350px;
+  border: 1px solid var(--border-mid);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.editorArea {
+  min-height: 350px;
+  padding: 1rem;
+  outline: none;
+}
+
+.prose {
+  max-width: 100%;
+}
+
+.emptyEditor {
+  position: relative;
+}
+
+.emptyEditor::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.backBtn {
+  padding: 0.75rem 1.5rem;
+  background: var(--border-mid);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.backBtn:hover:not(:disabled) {
+  background: var(--border-dark);
+}
+
+.submitBtn {
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.submitBtn:disabled,
+.backBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Image handling styles */
+.blog-image {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  max-width: 100%;
+  height: auto;
+}
+
+.blog-image:hover {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.imageDeleteNote {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  z-index: 10;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.imageDeleteContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.imageDeleteActions {
+  display: flex;
+  gap: 12px;
+}
+
+.deleteImageButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.deleteImageButton:hover:not(:disabled) {
+  background: #ff7875;
+}
+
+.deleteImageButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.deleteLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #69b1ff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.deleteLink:hover {
+  text-decoration: underline;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Table styles */
+.table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table td,
+.table th {
+  border: 1px solid var(--border-mid);
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 0.5rem 1rem;
+  position: relative;
+  vertical-align: top;
+}
+
+.table th {
+  background-color: var(--bg-dark);
+  font-weight: bold;
+  text-align: left;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  margin: 1rem 0;
+}

@@ -17,6 +17,12 @@
   text-align: center;
 }
 
+.formContainer h3 {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 1rem;
+  color: var(--text);
+}
+
 .formContainer label {
   display: block;
   margin-bottom: 1.5rem;
@@ -56,27 +62,29 @@
   cursor: pointer;
 }
 
-.formContainer button {
+.nextBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
+  width: 100%;
   font-size: 1rem;
   font-weight: 500;
   color: white;
-  background: var(--primary-hover);
+  background: var(--primary);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
-.formContainer button:hover:not(:disabled) {
-  background: var(--accent-hover);
+.nextBtn:hover:not(:disabled) {
+  background: var(--primary-hover);
 }
 
-.formContainer button:disabled {
+.nextBtn:disabled {
   background: var(--border-mid);
   cursor: not-allowed;
   opacity: 0.6;
@@ -91,6 +99,106 @@
   color: #ff4d4f;
   font-size: 0.8rem;
   margin-top: 4px;
+}
+
+.required {
+  color: #ff4d4f;
+}
+
+/* Banner Styles */
+.bannerPreview {
+  margin-bottom: 1.5rem;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.removeBanner {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s ease;
+}
+
+.removeBanner:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.bannerInputGroup {
+  display: flex;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.bannerInputGroup input {
+  flex: 1;
+  margin: 0;
+}
+
+.uploadButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.bannerInputGroup input.uploadInput {
+  display: none;
+}
+
+.uploadButton:hover {
+  background: var(--primary-hover);
+}
+
+/* Two Column Layout */
+.twoColumn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* SEO Section */
+.seoSection {
+  margin: 2rem 0;
+  border-top: 1px solid var(--border-mid);
+  padding-top: 1rem;
+}
+
+.toggleSeoBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}
+
+.toggleSeoBtn:hover {
+  color: var(--text);
+}
+
+.seoFields {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--border-mid);
 }
 
 @keyframes shake {
@@ -109,4 +217,57 @@
   100% {
     transform: translateX(0);
   }
+}
+
+/* Add to BlogForm.module.css */
+
+.bannerPreview {
+  margin-bottom: 1.5rem;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.removeBanner {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 77, 79, 0.9);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.removeBanner:hover:not(:disabled) {
+  background: rgba(255, 50, 50, 0.9);
+}
+
+.removeBanner:disabled {
+  background: rgba(200, 200, 200, 0.9);
+  cursor: not-allowed;
+}
+
+.deleteNote {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.deleteNote a {
+  color: #4dabf7;
+  text-decoration: underline;
 }
