@@ -7,11 +7,21 @@ import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
 import { fetchWithAuth } from "@/lib/auth/client";
+import dynamic from "next/dynamic";
+
+// Dynamically import BlogEditor to avoid SSR issues
+const DynamicBlogEditor = dynamic(
+  () => import("./BlogEditor"),
+  {
+    ssr: false,
+    loading: () => <Spinner />
+  }
+);
 
 export default function BlogForm({ blogId }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(!!blogId); // only load if editing
+  const [loading, setLoading] = useState(!!blogId);
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -26,7 +36,6 @@ export default function BlogForm({ blogId }) {
     canonicalUrl: "",
   });
 
-  // Fetch blog if blogId is given
   useEffect(() => {
     if (!blogId) return;
 
@@ -58,32 +67,37 @@ export default function BlogForm({ blogId }) {
     };
 
     fetchBlog();
-  }, [blogId]);
+  }, [blogId, router]);
 
   const submit = async () => {
     setLoading(true);
     const method = blogId ? "PUT" : "POST";
     const url = blogId ? `/api/blogs/${blogId}` : "/api/blogs";
 
-    const res = await fetchWithAuth(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const res = await fetchWithAuth(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    if (!res.ok) {
-      toast.error("Failed to save blog");
-    } else {
-      toast.success(blogId ? "Updated" : "Created");
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+
+      toast.success(blogId ? "Blog updated!" : "Blog created!");
       router.push("/dashboard");
+    } catch (err) {
+      toast.error(err.message || "Failed to save blog");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   if (loading) {
     return (
-      <div style={{ marginTop: "4rem", textAlign: "center" }}>
-        <Spinner />
+      <div className="flex justify-center items-center h-64">
+        <Spinner size={32} />
       </div>
     );
   }
@@ -94,13 +108,13 @@ export default function BlogForm({ blogId }) {
         form={form}
         setForm={setForm}
         onNext={() => setStep(2)}
-        showMetadata={true} // pass flag to show metadata fields
+        showMetadata={true}
       />
     );
   }
 
   return (
-    <BlogEditor
+    <DynamicBlogEditor
       content={form.content}
       setContent={(c) => setForm({ ...form, content: c })}
       onBack={() => setStep(1)}
