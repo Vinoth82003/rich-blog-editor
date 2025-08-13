@@ -22,6 +22,7 @@ import "prismjs/themes/prism-okaidia.css";
 import "prismjs/themes/prism-tomorrow.css";
 import { CircleCheck } from "lucide-react";
 import Spinner from "./Spinner";
+import toast from "react-hot-toast";
 
 export default function BlogEditor({ content, setContent, onBack, onSubmit, loading }) {
   const fileInputRef = useRef();
@@ -60,15 +61,40 @@ export default function BlogEditor({ content, setContent, onBack, onSubmit, load
     immediatelyRender: false,
   });
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      editor.chain().focus().setImage({ src: reader.result }).run();
-    };
-    reader.readAsDataURL(file);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const toastId = toast.loading("uploading image please wait")
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        editor.chain().focus().setImage({ src: data.path }).run();
+        console.log("data: ", data);
+
+        toast.success("uploaded")
+      } else {
+        toast.error(data.error);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error(data.err);
+
+      alert("Error uploading image!");
+    } finally {
+      toast.dismiss(toastId)
+    }
   };
+
 
   return (
     <div className={styles.editorWrapper}>
