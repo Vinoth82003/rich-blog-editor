@@ -14,6 +14,8 @@ const blogSchema = new mongoose.Schema(
     // Slug for URLs
     slug: { type: String, unique: true },
 
+    displayOrder: { type: Number, default: 0 },
+    publishedDate: { type: Date },
     // SEO Metadata
     metaTitle: String,
     metaDescription: String,

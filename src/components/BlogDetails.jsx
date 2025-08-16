@@ -18,7 +18,6 @@ export default function BlogDetails({ form, setForm, onNext, showMetadata = true
 
     if (name === "bannerUrl") {
       setBannerPreview(value);
-      // Clear uploaded image data if user manually changes URL
       if (uploadedImageData) setUploadedImageData(null);
     }
 
@@ -270,6 +269,19 @@ export default function BlogDetails({ form, setForm, onNext, showMetadata = true
           </select>
         </label>
       </div>
+
+      <label>
+        Published Date
+        <input
+          type="date"
+          name="publishedDate" 
+          value={form.publishedDate}
+          onChange={handleChange}
+          className={errors.publishedDate ? styles.errorInput : ""}
+          disabled={isRemoving}
+        />
+      </label>
+
 
       {showMetadata && (
         <div className={styles.seoSection}>

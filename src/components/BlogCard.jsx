@@ -50,7 +50,7 @@ export default function BlogCard({
           <span>
             <Clock size={14} /> {blog.readTime} min
           </span>
-          <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
+          <span>{new Date(blog?.publishedDate || blog.createdAt).toLocaleDateString()}</span>
         </div>
 
         {/* Action Buttons */}

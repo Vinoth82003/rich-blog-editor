@@ -27,6 +27,7 @@ export async function PUT(req, { params }) {
   await connectDB();
 
   const updates = await req.json();
+
   const blog = await Blog.findOneAndUpdate(
     { _id: params.id, author: userId },
     updates,

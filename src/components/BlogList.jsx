@@ -8,8 +8,42 @@ import Swal from "sweetalert2";
 import { fetchWithAuth } from "@/lib/auth/client";
 import styles from "@/styles/BlogList.module.css";
 import { motion } from "framer-motion";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const tabs = ["all", "draft", "published"];
+
+
+function SortableItem({ blog, index, onDelete, onStatusChange, isHighlighted }) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: blog._id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    cursor: "grab",
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <BlogCard
+        blog={blog}
+        orderNumber={index + 1}
+        onDelete={onDelete}
+        onStatusChange={onStatusChange}
+        isHighlighted={isHighlighted}
+      />
+    </div>
+  );
+}
+
 
 export default function BlogList() {
   const [blogs, setBlogs] = useState(null);
@@ -88,9 +122,39 @@ export default function BlogList() {
   const filteredBlogs = blogs?.filter((blog) =>
     searchTerm
       ? blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        blog.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      blog.description?.toLowerCase().includes(searchTerm.toLowerCase())
       : true
   );
+
+
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = blogs.findIndex((b) => b._id === active.id);
+    const newIndex = blogs.findIndex((b) => b._id === over.id);
+
+    const reordered = arrayMove(blogs, oldIndex, newIndex);
+    setBlogs(reordered);
+
+    const toastId = toast.loading("Re-ordering please wait");
+
+    try {
+      await fetchWithAuth("/api/blogs/reorder", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderedIds: reordered.map((b) => b._id) }),
+      });
+      toast.success("Re-ordered...!");
+    } catch (error) {
+      toast.error("Re-order failed");
+      console.log("[ERROR]: ", error);
+    } finally {
+      toast.dismiss(toastId)
+    }
+  };
+
+
 
   return (
     <div className={styles.container}>
@@ -100,9 +164,8 @@ export default function BlogList() {
           <motion.button
             key={tab}
             onClick={() => setFilter(tab)}
-            className={`${styles.tabButton} ${
-              filter === tab ? styles.activeTab : ""
-            }`}
+            className={`${styles.tabButton} ${filter === tab ? styles.activeTab : ""
+              }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -125,19 +188,22 @@ export default function BlogList() {
         <Spinner size={20} />
       ) : filteredBlogs && filteredBlogs.length > 0 ? (
         <div className={styles.blogList}>
-          {filteredBlogs.map((blog) => (
-            <BlogCard
-              key={blog._id}
-              blog={{
-                ...blog,
-                title: highlight(blog.title),
-                description: highlight(blog.description || ""),
-              }}
-              onDelete={deleteBlog}
-              onStatusChange={toggleStatus}
-              isHighlighted={!!searchTerm}
-            />
-          ))}
+          <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={filteredBlogs.map((b) => b._id)} strategy={verticalListSortingStrategy}>
+              <div className="space-y-4">
+                {blogs.map((blog, index) => (
+                  <SortableItem
+                    key={blog._id}
+                    blog={blog}
+                    index={index}
+                    onDelete={() => console.log("delete", blog._id)}
+                    onStatusChange={() => console.log("status", blog._id)}
+                    isHighlighted={false}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
         </div>
       ) : (
         <p>No blogs found.</p>

@@ -28,6 +28,7 @@ export default function BlogForm({ blogId }) {
     bannerUrl: "",
     readTime: "",
     status: "draft",
+    publishedDate: "",
     slug: "",
     metaTitle: "",
     metaDescription: "",
@@ -51,6 +52,7 @@ export default function BlogForm({ blogId }) {
           bannerUrl: data.bannerUrl || "",
           readTime: data.readTime || "",
           status: data.status || "draft",
+          publishedDate: data.publishedDate || "",
           slug: data.slug || "",
           metaTitle: data.metaTitle || "",
           metaDescription: data.metaDescription || "",
@@ -77,7 +79,10 @@ export default function BlogForm({ blogId }) {
       const res = await fetchWithAuth(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          publishedDate: form.publishedDate ? new Date(form.publishedDate) : null,
+        }),
       });
 
       if (!res.ok) {

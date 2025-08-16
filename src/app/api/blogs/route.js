@@ -28,6 +28,7 @@ export async function POST(req) {
     bannerUrl,
     readTime,
     status,
+    publishedDate,
     metaTitle,
     metaDescription,
     metaKeywords,
@@ -43,6 +44,7 @@ export async function POST(req) {
       bannerUrl,
       readTime,
       status,
+      publishedDate,
       metaTitle,
       metaDescription,
       metaKeywords,
@@ -80,7 +82,7 @@ export async function GET(req) {
 
   const blogs = await Blog.find(filter)
     .populate("author", "name")
-    .sort({ createdAt: -1 });
+    .sort({ displayOrder: 1 });
 
   return NextResponse.json(blogs);
 }
