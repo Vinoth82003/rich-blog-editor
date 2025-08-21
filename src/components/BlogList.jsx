@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import BlogCard from "./BlogCard";
 import Spinner from "./Spinner";
 import toast from "react-hot-toast";
@@ -17,8 +17,16 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-const tabs = ["all", "draft", "published"];
+// Debounce helper
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
 
+const tabs = ["all", "draft", "published"];
 
 function SortableItem({ blog, index, onDelete, onStatusChange, isHighlighted }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -44,36 +52,47 @@ function SortableItem({ blog, index, onDelete, onStatusChange, isHighlighted }) 
   );
 }
 
-
 export default function BlogList() {
-  const [blogs, setBlogs] = useState(null);
+  const [blogs, setBlogs] = useState([]);
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const fetchBlogs = async (status = "all") => {
-    try {
-      setLoading(true);
-      const query = status !== "all" ? `?status=${status}` : "";
-      const res = await fetchWithAuth(`/api/blogs${query}`);
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || "Failed to fetch blogs");
+  // cache blogs by status to avoid refetch
+  const [cache, setCache] = useState({});
+
+  const fetchBlogs = useCallback(
+    async (status = "all") => {
+      if (cache[status]) {
+        setBlogs(cache[status]);
+        return;
       }
-      const data = await res.json();
-      setBlogs(data);
-    } catch (err) {
-      console.error(err);
-      toast.error(err.message || "Something went wrong while fetching blogs");
-      setBlogs([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      try {
+        setLoading(true);
+        const query = status !== "all" ? `?status=${status}` : "";
+        const res = await fetchWithAuth(`/api/blogs${query}`);
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.error || "Failed to fetch blogs");
+        }
+        const data = await res.json();
+        setBlogs(data);
+        setCache((prev) => ({ ...prev, [status]: data }));
+      } catch (err) {
+        console.error(err);
+        toast.error(err.message || "Something went wrong while fetching blogs");
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [cache]
+  );
 
   useEffect(() => {
     fetchBlogs(filter);
-  }, [filter]);
+  }, [filter, fetchBlogs]);
 
   const deleteBlog = async (id) => {
     const result = await Swal.fire({
@@ -103,11 +122,16 @@ export default function BlogList() {
 
   const toggleStatus = async (id) => {
     const toastId = toast.loading("Changing blog status...");
-    const res = await fetchWithAuth(`/api/blogs/${id}`, { method: "PATCH" });
-    const data = await res.json();
-    setBlogs(data.blogs);
-    toast.success(data.message);
-    toast.dismiss(toastId);
+    try {
+      const res = await fetchWithAuth(`/api/blogs/${id}`, { method: "PATCH" });
+      const data = await res.json();
+      setBlogs(data.blogs);
+      toast.success(data.message);
+    } catch {
+      toast.error("Failed to change status");
+    } finally {
+      toast.dismiss(toastId);
+    }
   };
 
   const highlight = (text) => {
@@ -119,13 +143,22 @@ export default function BlogList() {
     );
   };
 
-  const filteredBlogs = blogs?.filter((blog) =>
-    searchTerm
-      ? blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      blog.description?.toLowerCase().includes(searchTerm.toLowerCase())
-      : true
+  // debounce searchTerm updates
+  const handleSearch = useMemo(
+    () => debounce((val) => setSearchTerm(val), 300),
+    []
   );
 
+  // Apply filtering & search
+  const filteredBlogs = useMemo(() => {
+    if (!blogs) return [];
+    return blogs.filter((blog) =>
+      searchTerm
+        ? blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog.description?.toLowerCase().includes(searchTerm.toLowerCase())
+        : true
+    );
+  }, [blogs, searchTerm]);
 
   const handleDragEnd = async (event) => {
     const { active, over } = event;
@@ -150,11 +183,9 @@ export default function BlogList() {
       toast.error("Re-order failed");
       console.log("[ERROR]: ", error);
     } finally {
-      toast.dismiss(toastId)
+      toast.dismiss(toastId);
     }
   };
-
-
 
   return (
     <div className={styles.container}>
@@ -179,8 +210,7 @@ export default function BlogList() {
         className={styles.searchInput}
         type="text"
         placeholder="Search by title or description..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => handleSearch(e.target.value)}
       />
 
       {/* Blog List */}
@@ -189,16 +219,23 @@ export default function BlogList() {
       ) : filteredBlogs && filteredBlogs.length > 0 ? (
         <div className={styles.blogList}>
           <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <SortableContext items={filteredBlogs.map((b) => b._id)} strategy={verticalListSortingStrategy}>
+            <SortableContext
+              items={filteredBlogs.map((b) => b._id)}
+              strategy={verticalListSortingStrategy}
+            >
               <div className="space-y-4">
-                {blogs.map((blog, index) => (
+                {filteredBlogs.map((blog, index) => (
                   <SortableItem
                     key={blog._id}
-                    blog={blog}
+                    blog={{
+                      ...blog,
+                      title: highlight(blog.title),
+                      description: highlight(blog.description || ""),
+                    }}
                     index={index}
-                    onDelete={() => console.log("delete", blog._id)}
-                    onStatusChange={() => console.log("status", blog._id)}
-                    isHighlighted={false}
+                    onDelete={deleteBlog}
+                    onStatusChange={toggleStatus}
+                    isHighlighted={!!searchTerm}
                   />
                 ))}
               </div>
